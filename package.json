@@ -1,0 +1,38 @@
+{
+  "name": "gulp-file-include",
+  "version": "0.0.2",
+  "description": "a gulp plugin for file include",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/coderhaoxin/gulp-file-include.git"
+  },
+  "keywords": [
+    "gulpplugin",
+    "file",
+    "include",
+    "gulp",
+    "plugin"
+  ],
+  "author": "haoxin",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/coderhaoxin/gulp-file-include/issues"
+  },
+  "homepage": "https://github.com/coderhaoxin/gulp-file-include",
+  "devDependencies": {
+    "should": "~2.1.1",
+    "gulp": "~3.2.4"
+  },
+  "dependencies": {
+    "gulp-util": "~2.2.6",
+    "event-stream": "~3.0.20"
+  },
+  "directories": {
+    "example": "example",
+    "test": "test"
+  }
+}
