@@ -1,37 +1,42 @@
-var fs    = require('fs')
-var es    = require('event-stream')
-var gutil = require('gulp-util')
+'use strict';
 
-module.exports = function (prefix) {
-	prefix = prefix || '@@'
-	var includeRegExp = new RegExp(prefix + 'include\\(\\s*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)')
+var fs = require('fs'),
+  concat = require('concat-stream'),
+  es = require('event-stream');
 
-	function fileInclude(file) {
-		if (file.isNull()) {
-			return this.emit('data', file)
-		}
+module.exports = function(prefix) {
+  prefix = prefix || '@@';
+  var includeRegExp = new RegExp(prefix + 'include\\(\\s*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)');
 
-		if (file.isStream()) {
-			this.emit('error', new gutil.PluginError('gulp-file-include', 'stream not supported'))
-		}
+  function fileInclude(file) {
+    var self = this;
 
-		if (file.isBuffer()) {
-			var text = String(file.contents)
-			var matches = includeRegExp.exec(text)
+    if (file.isNull()) {
+      self.emit('data', file);
+    } else if (file.isStream()) {
+      file.contents.pipe(concat(function(data) {
+        var text = String(data);
+        self.emit('data', include(file, text, includeRegExp));
+      }));
+    } else if (file.isBuffer()) {
+      self.emit('data', include(file, String(file.contents), includeRegExp));
+    }
+  }
 
-			while (matches) {
-				var match = matches[0]
-				var includePath = matches[1]
-				var includeContent = fs.readFileSync(includePath)
+  return es.through(fileInclude);
+};
 
-				text = text.replace(match, includeContent)
-				matches = includeRegExp.exec(text)
-			}
-			file.contents = new Buffer(text)
-		}
+function include(file, text, includeRegExp) {
+  var matches = includeRegExp.exec(text);
 
-		this.emit('data', file)
-	}
+  while (matches) {
+    var match = matches[0],
+      includePath = matches[1],
+      includeContent = fs.readFileSync(includePath);
 
-	return es.through(fileInclude)
+    text = text.replace(match, includeContent);
+    matches = includeRegExp.exec(text);
+  }
+  file.contents = new Buffer(text);
+  return file;
 }

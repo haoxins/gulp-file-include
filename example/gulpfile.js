@@ -1,12 +1,18 @@
-var gulp = require('gulp')
-var fileinclude = require('../index')
+'use strict';
+
+var fs = require('fs'),
+  gulp = require('gulp'),
+  fileinclude = require('../index');
 
 gulp.task('fileinclude', function() {
-	gulp.src(['index.html'])
-		.pipe(fileinclude())
-		.pipe(gulp.dest('./result/'))
+  if (!fs.existsSync('./result')) {
+    fs.mkdirSync('result');
+  }
+  gulp.src(['./index.html'])
+    .pipe(fileinclude())
+    .pipe(gulp.dest('./result'));
 });
 
 gulp.task('default', function() {
-	gulp.run('fileinclude')
-})
+  gulp.run('fileinclude');
+});

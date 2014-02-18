@@ -14,9 +14,9 @@ npm install gulp-file-include
 ```html
 <!DOCTYPE html>
 <html>
-	<body>
-	@@include('./view.html')
-	</body>
+  <body>
+  @@include('./view.html')
+  </body>
 </html>
 ```
 
@@ -33,13 +33,13 @@ var gulp = require('gulp')
 var fileinclude = require('../index')
 
 gulp.task('fileinclude', function() {
-	gulp.src(['index.html'])
-		.pipe(fileinclude())
-		.pipe(gulp.dest('./result/'))
+  gulp.src(['index.html'])
+    .pipe(fileinclude())
+    .pipe(gulp.dest('./result/'))
 });
 
 gulp.task('default', function() {
-	gulp.run('fileinclude')
+  gulp.run('fileinclude')
 })
 ```
 
@@ -48,8 +48,11 @@ gulp.task('default', function() {
 ```html
 <!DOCTYPE html>
 <html>
-	<body>
-	<h1>view</h1>
-	</body>
+  <body>
+  <h1>view</h1>
+  </body>
 </html>
 ```
+
+### License
+MIT
