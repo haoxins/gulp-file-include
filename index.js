@@ -16,17 +16,18 @@ module.exports = function(prefix) {
     } else if (file.isStream()) {
       file.contents.pipe(concat(function(data) {
         var text = String(data);
-        self.emit('data', include(file, text, includeRegExp));
+        self.emit('data', include(file, text, includeRegExp, prefix));
       }));
     } else if (file.isBuffer()) {
-      self.emit('data', include(file, String(file.contents), includeRegExp));
+      self.emit('data', include(file, String(file.contents), includeRegExp, prefix));
     }
   }
 
   return es.through(fileInclude);
 };
 
-function include(file, text, includeRegExp) {
+function include(file, text, includeRegExp, prefix) {
+  prefix = prefix || '';
   var matches = includeRegExp.exec(text);
 
   while (matches) {
@@ -35,6 +36,15 @@ function include(file, text, includeRegExp) {
       includeContent = fs.readFileSync(includePath);
 
     text = text.replace(match, includeContent);
+
+    if (matches[3]) {
+      // replace variables
+      var data = JSON.parse(matches[3]);
+      for (var k in data) {
+        text = text.replace(new RegExp(prefix + k, 'g'), data[k]);
+      }
+    }
+
     matches = includeRegExp.exec(text);
   }
   file.contents = new Buffer(text);

@@ -6,6 +6,8 @@ var fileIncludePlugin = require('../'),
   should = require('should');
 
 describe('## gulp-file-include', function() {
+  var result = fs.readFileSync('test/fixtures/result.html').toString();
+
   it('# should replace include-string on a file', function(done) {
     var file = new gutil.File({
       path: 'test/fixtures/index.html',
@@ -19,7 +21,7 @@ describe('## gulp-file-include', function() {
       should.exist(newFile);
       should.exist(newFile.contents);
 
-      String(newFile.contents).should.equal('<!DOCTYPE html>\n' + '<html>\n' + '  <body>\n' + '  <h1>view</h1>\n' + '  </body>\n' + '</html>\n');
+      String(newFile.contents).should.equal(result);
       done();
     });
 
@@ -41,7 +43,7 @@ describe('## gulp-file-include', function() {
       should.exist(newFile);
       should.exist(newFile.contents);
 
-      String(newFile.contents).should.equal('<!DOCTYPE html>\n' + '<html>\n' + '  <body>\n' + '  <h1>view</h1>\n' + '  </body>\n' + '</html>\n');
+      String(newFile.contents).should.equal(result);
       done();
     });
 

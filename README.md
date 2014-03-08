@@ -1,6 +1,5 @@
 ### gulp-file-include
-
-* a plugin of gulp for file include
+a plugin of gulp for file include
 
 ### install
 ```bash
@@ -9,25 +8,29 @@ npm install gulp-file-include
 
 ### how to use
 
-* index.html
-
+index.html
 ```html
 <!DOCTYPE html>
 <html>
   <body>
   @@include('./view.html')
+  @@include('./var.html', {"name": "haoxin", "age": 12345})
   </body>
 </html>
 ```
 
-* view.html
-
+view.html
 ```html
 <h1>view</h1>
 ```
 
-* gulpfile.js
+var.html
+```html
+<label>@@name</label>
+<label>@@age</label>
+```
 
+gulpfile.js
 ```js
 var gulp = require('gulp')
 var fileinclude = require('../index')
@@ -43,13 +46,14 @@ gulp.task('default', function() {
 })
 ```
 
-* and the result is:
-
+and the result is:
 ```html
 <!DOCTYPE html>
 <html>
   <body>
   <h1>view</h1>
+  <label>haoxin</label>
+<label>12345</label>
   </body>
 </html>
 ```
