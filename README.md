@@ -32,18 +32,18 @@ var.html
 
 gulpfile.js
 ```js
-var gulp = require('gulp')
-var fileinclude = require('../index')
+var gulp = require('gulp'),
+  fileinclude = require('gulp-file-include');
 
 gulp.task('fileinclude', function() {
   gulp.src(['index.html'])
     .pipe(fileinclude())
-    .pipe(gulp.dest('./result/'))
+    .pipe(gulp.dest('./result/'));
 });
 
 gulp.task('default', function() {
-  gulp.run('fileinclude')
-})
+  gulp.run('fileinclude');
+});
 ```
 
 and the result is:

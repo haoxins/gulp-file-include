@@ -13,8 +13,4 @@ test: install
 		$(MOCHA_OPTS) \
 		$(TESTS)
 
-autod: install
-	@./node_modules/.bin/autod -w
-	@$(MAKE) install
-
 .PHONY: test

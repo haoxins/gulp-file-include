@@ -1,6 +1,6 @@
 {
   "name": "gulp-file-include",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "a gulp plugin for file include",
   "main": "index.js",
   "scripts": {
@@ -24,15 +24,14 @@
   },
   "homepage": "https://github.com/coderhaoxin/gulp-file-include",
   "devDependencies": {
-    "autod": "*",
     "gulp": "*",
     "gulp-util": "*",
     "mocha": "*",
     "should": "*"
   },
   "dependencies": {
-    "concat-stream": "1.4.3",
-    "event-stream": "3.1.0"
+    "concat-stream": "^1.4.3",
+    "event-stream": "^3.1.0"
   },
   "directories": {
     "example": "example",
