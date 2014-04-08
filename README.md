@@ -14,7 +14,10 @@ index.html
 <html>
   <body>
   @@include('./view.html')
-  @@include('./var.html', {"name": "haoxin", "age": 12345})
+  @@include('./var.html', {
+    "name": "haoxin",
+    "age": 12345
+  })
   </body>
 </html>
 ```
