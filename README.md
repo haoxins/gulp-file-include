@@ -1,3 +1,5 @@
+[![NPM](https://nodei.co/npm/gulp-file-include.png?downloads=true)](https://nodei.co/npm/gulp-file-include/)
+
 ### gulp-file-include
 a plugin of gulp for file include
 
@@ -6,7 +8,38 @@ a plugin of gulp for file include
 npm install gulp-file-include
 ```
 
-### how to use
+### options
+
+* options - type: `string`, just as prefix, default `@@`, and basepath is default `@file`
+
+```js
+fileinclude('@@')
+```
+
+* options - type: `object`
+  - prefix: `string`, default `@@`
+  - basepath: `string`, default `@file`, it could be `@root`, `@file`, `your-basepath`
+
+* options.basepath - type: `string`, it could be
+  - '@root', include file relative to the dir where `gulp` running in
+  - '@file', include file relative to the dir where `file` in
+  - 'your-basepath' include file relative to the basepath you give
+
+```js
+fileinclude({
+  prefix: '@@',
+  basepath: '@file'
+})
+```
+
+```js
+fileinclude({
+  prefix: '@@',
+  basepath: '/home/'
+})
+```
+
+### example
 
 index.html
 ```html
@@ -40,12 +73,11 @@ var gulp = require('gulp'),
 
 gulp.task('fileinclude', function() {
   gulp.src(['index.html'])
-    .pipe(fileinclude())
-    .pipe(gulp.dest('./result/'));
-});
-
-gulp.task('default', function() {
-  gulp.run('fileinclude');
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(gulp.dest('./'));
 });
 ```
 
@@ -59,6 +91,17 @@ and the result is:
 <label>12345</label>
   </body>
 </html>
+```
+
+### migrate from 0.2.x
+
+* juse use the options below
+
+```js
+{
+  prefix: '@@', // or something else
+  basepath: '@root'
+}
 ```
 
 ### License

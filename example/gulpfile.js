@@ -1,16 +1,15 @@
 'use strict';
 
-var fs = require('fs'),
-  gulp = require('gulp'),
+var gulp = require('gulp'),
   fileinclude = require('../index');
 
 gulp.task('fileinclude', function() {
-  if (!fs.existsSync('./result')) {
-    fs.mkdirSync('result');
-  }
-  gulp.src(['./index.html'])
-    .pipe(fileinclude())
-    .pipe(gulp.dest('./result'));
+  gulp.src(['../test/fixtures/index-01.html'])
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('default', function() {
