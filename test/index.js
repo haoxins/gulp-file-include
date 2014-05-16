@@ -5,11 +5,11 @@ var fileIncludePlugin = require('../'),
   gutil = require('gulp-util'),
   should = require('should');
 
-describe('### gulp-file-include', function() {
+describe('## gulp-file-include', function() {
   var result = fs.readFileSync('test/fixtures/result.html').toString();
 
-  describe('## default', function() {
-    it('# file', function(done) {
+  describe('# default', function() {
+    it('file', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.readFileSync('test/fixtures/index-01.html')
@@ -28,7 +28,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# stream', function(done) {
+    it('stream', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.createReadStream('test/fixtures/index-01.html')
@@ -48,8 +48,8 @@ describe('### gulp-file-include', function() {
     });
   });
 
-  describe('## options - basepath', function() {
-    it('# file - basepath: @file', function(done) {
+  describe('# options - basepath', function() {
+    it('file - basepath: @file', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.readFileSync('test/fixtures/index-01.html')
@@ -70,7 +70,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# stream - basepath: @file', function(done) {
+    it('stream - basepath: @file', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.createReadStream('test/fixtures/index-01.html')
@@ -91,7 +91,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# file - basepath: @root', function(done) {
+    it('file - basepath: @root', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-03.html',
         contents: fs.readFileSync('test/fixtures/index-03.html')
@@ -112,7 +112,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# stream - basepath: @root', function(done) {
+    it('stream - basepath: @root', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-03.html',
         contents: fs.createReadStream('test/fixtures/index-03.html')
@@ -133,7 +133,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# file - basepath: dir', function(done) {
+    it('file - basepath: dir', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-02.html',
         contents: fs.readFileSync('test/fixtures/index-02.html')
@@ -154,7 +154,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# stream - basepath: dir', function(done) {
+    it('stream - basepath: dir', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-02.html',
         contents: fs.createReadStream('test/fixtures/index-02.html')
@@ -176,8 +176,8 @@ describe('### gulp-file-include', function() {
     });
   });
 
-  describe('## options - prefix, basepath', function() {
-    it('# file - basepath: @file', function(done) {
+  describe('# options - prefix, basepath', function() {
+    it('file - basepath: @file', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.readFileSync('test/fixtures/index-01.html')
@@ -199,7 +199,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# stream - basepath: @file', function(done) {
+    it('stream - basepath: @file', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.createReadStream('test/fixtures/index-01.html')
@@ -221,7 +221,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# file - basepath: @root', function(done) {
+    it('file - basepath: @root', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-03.html',
         contents: fs.readFileSync('test/fixtures/index-03.html')
@@ -243,7 +243,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# stream - basepath: @root', function(done) {
+    it('stream - basepath: @root', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-03.html',
         contents: fs.createReadStream('test/fixtures/index-03.html')
@@ -265,7 +265,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# file - basepath: dir', function(done) {
+    it('file - basepath: dir', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-02.html',
         contents: fs.readFileSync('test/fixtures/index-02.html')
@@ -287,7 +287,7 @@ describe('### gulp-file-include', function() {
       stream.end();
     });
 
-    it('# stream - basepath: dir', function(done) {
+    it('stream - basepath: dir', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-02.html',
         contents: fs.createReadStream('test/fixtures/index-02.html')

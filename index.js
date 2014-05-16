@@ -3,7 +3,8 @@
 var fs = require('fs'),
   path = require('path'),
   concat = require('concat-stream'),
-  es = require('event-stream');
+  es = require('event-stream'),
+  gutil = require('gulp-util');
 
 module.exports = function(options) {
   var prefix, basepath;
@@ -26,10 +27,19 @@ module.exports = function(options) {
     } else if (file.isStream()) {
       file.contents.pipe(concat(function(data) {
         var text = String(data);
-        self.emit('data', include(file, text, includeRegExp, prefix, basepath));
+
+        try {
+          self.emit('data', include(file, text, includeRegExp, prefix, basepath));
+        } catch (e) {
+          self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
+        }
       }));
     } else if (file.isBuffer()) {
-      self.emit('data', include(file, String(file.contents), includeRegExp, prefix, basepath));
+      try {
+        self.emit('data', include(file, String(file.contents), includeRegExp, prefix, basepath));
+      } catch (e) {
+        self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
+      }
     }
   }
 
