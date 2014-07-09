@@ -21,9 +21,9 @@ fileinclude('@@')
   - basepath: `string`, default `@file`, it could be `@root`, `@file`, `your-basepath`
 
 * options.basepath - type: `string`, it could be
-  - '@root', include file relative to the dir where `gulp` running in
-  - '@file', include file relative to the dir where `file` in
-  - 'your-basepath' include file relative to the basepath you give
+  - `@root`, include file relative to the dir where `gulp` running in
+  - `@file`, include file relative to the dir where `file` in [example](example)
+  - `your-basepath` include file relative to the basepath you give
 
 ```js
 fileinclude({
@@ -31,6 +31,8 @@ fileinclude({
   basepath: '@file'
 })
 ```
+
+**important**: `@file` is relative to the `file` pass to gulp, not the file `include expression` in, see [example](example)
 
 ```js
 fileinclude({
