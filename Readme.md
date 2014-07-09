@@ -95,16 +95,5 @@ and the result is:
 </html>
 ```
 
-### migrate from 0.2.x
-
-* juse use the options below
-
-```js
-{
-  prefix: '@@', // or something else
-  basepath: '@root'
-}
-```
-
 ### License
 MIT
