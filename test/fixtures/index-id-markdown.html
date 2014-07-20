@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <body>
-  @@include('view.html')
-  @@include('./var.html', {
+  @@include(id(markdown('view.md')))
+  @@include(id('./var.html', {
     "name": "haoxin",
     "age": 12345
-  })
+  }))
   </body>
 </html>
