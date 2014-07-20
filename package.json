@@ -25,6 +25,7 @@
   "homepage": "https://github.com/coderhaoxin/gulp-file-include",
   "devDependencies": {
     "gulp": "*",
+    "markdown": "^0.5.0",
     "mocha": "*",
     "should": "*"
   },
