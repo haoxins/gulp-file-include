@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <body>
-  @@include(id(markdown('view.md')))
-  @@include(id('./var.html', {
+  @@include(markdown(rot13('view.rot13.md')))
+  @@include(rot13('./var.rot13.html', {
     "name": "haoxin",
     "age": 12345
   }))

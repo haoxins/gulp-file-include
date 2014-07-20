@@ -361,16 +361,16 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('file - filters: id & markdown', function(done) {
+    it('file - filters: markdown & rot13', function(done) {
       var file = new gutil.File({
-        path: 'test/fixtures/index-id-markdown.html',
-        contents: fs.readFileSync('test/fixtures/index-id-markdown.html')
+        path: 'test/fixtures/index-markdown-rot13.html',
+        contents: fs.readFileSync('test/fixtures/index-markdown-rot13.html')
       });
 
       var stream = fileIncludePlugin({
         filters: {
           markdown: markdown.parse,
-          id: function(x) { return x; }
+          rot13: rot13
         }
       });
       
@@ -386,16 +386,16 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
     
-    it('stream - filters: id & markdown', function(done) {
+    it('stream - filters: markdown & rot13', function(done) {
       var file = new gutil.File({
-        path: 'test/fixtures/index-id-markdown.html',
-        contents: fs.createReadStream('test/fixtures/index-id-markdown.html')
+        path: 'test/fixtures/index-markdown-rot13.html',
+        contents: fs.createReadStream('test/fixtures/index-markdown-rot13.html')
       });
 
       var stream = fileIncludePlugin({
         filters: {
           markdown: markdown.parse,
-          id: function(x) { return x; }
+          rot13: rot13
         }
       });
       
@@ -412,3 +412,12 @@ describe('## gulp-file-include', function() {
     });
   });
 });
+
+function rot13(str) {
+  // original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+  return (str + '').replace(/[a-z]/gi, function (s) {
+    return String.fromCharCode(
+      s.charCodeAt(0) + (s.toLowerCase() < 'n' ? 13 : -13)
+    );
+  });
+}

@@ -89,7 +89,7 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
 }
 
 function applyFilters(filters, match, includeContent) {
-  if (match.match(/\)+$/)[0].length == 1) {
+  if (match.match(/\)+$/)[0].length === 1) {
     // nothing to filter return unchanged
     return includeContent;
   }
@@ -101,8 +101,10 @@ function applyFilters(filters, match, includeContent) {
   });
   
   // compose them together into one function
-  var filter = filterlist.reduceRight(compose);
-  return(filter(String(includeContent)));
+  var filter = filterlist.reduce(compose);
+
+  // And apply the composed function to the stringified content
+  return filter(String(includeContent));
 }
 
 function compose(f, g) {
