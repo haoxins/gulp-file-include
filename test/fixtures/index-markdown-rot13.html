@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <body>
+  @@include(markdown(rot13('view.rot13.md')))
+  @@include(rot13('./var.rot13.html', {
+    "name": "haoxin",
+    "age": 12345
+  }))
+  </body>
+</html>
