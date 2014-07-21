@@ -49,7 +49,7 @@ module.exports = function(options) {
 
 function include(file, text, includeRegExp, prefix, basepath, filters) {
   var matches = includeRegExp.exec(text);
-  
+
   switch (basepath) {
     case '@file':
       basepath = path.dirname(file.path);
@@ -93,13 +93,13 @@ function applyFilters(filters, match, includeContent) {
     // nothing to filter return unchanged
     return includeContent;
   }
-  
+
   // now get the ordered list of filters
-  var filterlist = match.split('(').slice(1,-1);
+  var filterlist = match.split('(').slice(1, -1);
   filterlist = filterlist.map(function(str) {
     return filters[str.trim()];
   });
-  
+
   // compose them together into one function
   var filter = filterlist.reduce(compose);
 

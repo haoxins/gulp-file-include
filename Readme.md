@@ -19,6 +19,7 @@ fileinclude('@@')
 * options - type: `object`
   - prefix: `string`, default `@@`
   - basepath: `string`, default `@file`, it could be `@root`, `@file`, `your-basepath`
+  - filters: `object`, filters of include content
 
 * options.basepath - type: `string`, it could be
   - `@root`, include file relative to the dir where `gulp` running in
@@ -93,6 +94,43 @@ and the result is:
 <label>12345</label>
   </body>
 </html>
+```
+
+### filters
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+  @@include(markdown('view.md'))
+  @@include('./var.html', {
+    "name": "haoxin",
+    "age": 12345
+  })
+  </body>
+</html>
+```
+
+view.md
+```html
+view
+====
+```
+
+```js
+var gulp = require('gulp'),
+  fileinclude = require('gulp-file-include'),
+  markdown = require('markdown');
+
+gulp.task('fileinclude', function() {
+  gulp.src(['index.html'])
+    .pipe(fileinclude({
+      filters: {
+        markdown: markdown.parse
+      }
+    }))
+    .pipe(gulp.dest('./'));
+});
 ```
 
 ### License

@@ -1,6 +1,6 @@
 {
   "name": "gulp-file-include",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "a gulp plugin for file include",
   "main": "index.js",
   "scripts": {
@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "concat-stream": "^1.4.5",
-    "event-stream": "^3.1.5",
-    "gulp-util": "^2.2.14"
+    "event-stream": "^3.1.7",
+    "gulp-util": "^2.2.20"
   },
   "directories": {
     "example": "example",
