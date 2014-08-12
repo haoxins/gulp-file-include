@@ -309,4 +309,26 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
   });
+
+  describe('# edge cases', function() {
+    it('should escape included content to avoid recursive includes', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures/index-04.html',
+        contents: fs.createReadStream('test/fixtures/index-04.html')
+      });
+      var expected = fs.readFileSync('test/fixtures/result-02.html').toString();
+
+      var stream = fileIncludePlugin();
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+
+        String(newFile.contents).should.equal(expected);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+  });
 });
