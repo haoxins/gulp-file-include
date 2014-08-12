@@ -67,6 +67,9 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
       includePath = matches[1],
       includeContent = fs.readFileSync(path.resolve(basepath, includePath));
 
+    // Need to double each `$` to escape it in the `replace` function
+    includeContent = String(includeContent).replace(/\$/gi, '$$$$');
+
     // apply filters on include content
     if (typeof filters === 'object') {
       includeContent = applyFilters(filters, match, includeContent);
@@ -84,6 +87,7 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
 
     matches = includeRegExp.exec(text);
   }
+
   file.contents = new Buffer(text);
   return file;
 }
