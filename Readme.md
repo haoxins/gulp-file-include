@@ -1,4 +1,7 @@
-[![NPM](https://nodei.co/npm/gulp-file-include.png?downloads=true)](https://nodei.co/npm/gulp-file-include/)
+[![NPM](https://nodei.co/npm/gulp-file-include.png?downloads=true)](https://nodei.co/npm/gulp-file-include)
+
+[![NPM version][npm-img]][npm-url]
+[![build status][travis-img]][travis-url]
 
 ### gulp-file-include
 a plugin of gulp for file include
@@ -135,3 +138,8 @@ gulp.task('fileinclude', function() {
 
 ### License
 MIT
+
+[npm-img]: https://img.shields.io/npm/v/gulp-file-include.svg?style=flat
+[npm-url]: https://www.npmjs.org/package/gulp-file-include
+[travis-img]: https://img.shields.io/travis/coderhaoxin/gulp-file-include.svg?style=flat
+[travis-url]: https://travis-ci.org/coderhaoxin/gulp-file-include
