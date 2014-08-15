@@ -55,12 +55,12 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
       basepath = path.dirname(file.path);
       break;
     case '@root':
-      basepath = '';
+      basepath = process.cwd();
       break;
     default:
       break;
   }
-  basepath = path.resolve(__dirname, basepath);
+  basepath = path.resolve(process.cwd(), basepath);
 
   while (matches) {
     var match = matches[0],
