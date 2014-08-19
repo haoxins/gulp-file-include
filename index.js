@@ -71,7 +71,7 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
     includeContent = includeContent.toString('utf-8').replace(/\uFEFF/, '');
 
     // need to double each `$` to escape it in the `replace` function
-    includeContent = String(includeContent).replace(/\$/gi, '$$$$');
+    includeContent = includeContent.replace(/\$/gi, '$$$$');
 
     // apply filters on include content
     if (typeof filters === 'object') {
