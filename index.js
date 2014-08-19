@@ -67,8 +67,11 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
       includePath = matches[1],
       includeContent = fs.readFileSync(path.resolve(basepath, includePath));
 
+    // strip utf-8 BOM  https://github.com/joyent/node/issues/1918
+    includeContent = includeContent.toString('utf-8').replace(/\uFEFF/, '');
+
     // need to double each `$` to escape it in the `replace` function
-    includeContent = String(includeContent).replace(/\$/gi, '$$$$');
+    includeContent = includeContent.replace(/\$/gi, '$$$$');
 
     // apply filters on include content
     if (typeof filters === 'object') {
