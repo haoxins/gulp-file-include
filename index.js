@@ -20,6 +20,12 @@ module.exports = function(options) {
 
   var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)]*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
 
+  // Only removes single line HTML comments that use the format: <!-- @@include() -->
+  function stripHtmlCommentedIncludes(html) {
+    var regex = new RegExp('<\!--(.*)' + prefix + 'include([\\s\\S]*?)-->', 'g');
+    return html.replace(regex, "");
+  }
+
   function fileInclude(file) {
     var self = this;
 
@@ -28,6 +34,7 @@ module.exports = function(options) {
     } else if (file.isStream()) {
       file.contents.pipe(concat(function(data) {
         var text = String(data);
+            text = stripHtmlCommentedIncludes(text);
 
         try {
           self.emit('data', include(file, text, includeRegExp, prefix, basepath, filters));
@@ -37,7 +44,7 @@ module.exports = function(options) {
       }));
     } else if (file.isBuffer()) {
       try {
-        self.emit('data', include(file, String(file.contents), includeRegExp, prefix, basepath, filters));
+        self.emit('data', include(file, stripHtmlCommentedIncludes(String(file.contents)), includeRegExp, prefix, basepath, filters));
       } catch (e) {
         self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
       }
@@ -48,6 +55,7 @@ module.exports = function(options) {
 };
 
 function include(file, text, includeRegExp, prefix, basepath, filters) {
+
   var matches = includeRegExp.exec(text);
 
   switch (basepath) {
@@ -60,12 +68,22 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
     default:
       break;
   }
+
   basepath = path.resolve(process.cwd(), basepath);
 
+  // For checking if we are not including the current file again
+  var currentFilename = path.resolve(file.base, file.path);
+
   while (matches) {
-    var match = matches[0],
-      includePath = matches[1],
-      includeContent = fs.readFileSync(path.resolve(basepath, includePath));
+    var match = matches[0];
+    var includePath = path.resolve(basepath, matches[1]);
+
+    if (currentFilename.toLowerCase() === includePath.toLowerCase()) {
+      // Will be emitted by try-catch block
+      throw new Error('Recursion detected in file: ' + currentFilename);
+    }
+
+    var includeContent = fs.readFileSync(includePath);
 
     // strip utf-8 BOM  https://github.com/joyent/node/issues/1918
     includeContent = includeContent.toString('utf-8').replace(/\uFEFF/, '');
