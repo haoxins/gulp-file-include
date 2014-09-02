@@ -1,7 +1,8 @@
-[![NPM](https://nodei.co/npm/gulp-file-include.png?downloads=true)](https://nodei.co/npm/gulp-file-include)
-
 [![NPM version][npm-img]][npm-url]
-[![build status][travis-img]][travis-url]
+[![Build status][travis-img]][travis-url]
+[![Test coverage][coveralls-img]][coveralls-url]
+[![License][license-img]][license-url]
+[![Dependency status][david-img]][david-url]
 
 ### gulp-file-include
 a plugin of gulp for file include
@@ -139,7 +140,13 @@ gulp.task('fileinclude', function() {
 ### License
 MIT
 
-[npm-img]: https://img.shields.io/npm/v/gulp-file-include.svg?style=flat
-[npm-url]: https://www.npmjs.org/package/gulp-file-include
-[travis-img]: https://img.shields.io/travis/coderhaoxin/gulp-file-include.svg?style=flat
+[npm-img]: https://img.shields.io/npm/v/gulp-file-include.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/gulp-file-include
+[travis-img]: https://img.shields.io/travis/coderhaoxin/gulp-file-include.svg?style=flat-square
 [travis-url]: https://travis-ci.org/coderhaoxin/gulp-file-include
+[coveralls-img]: https://img.shields.io/coveralls/coderhaoxin/gulp-file-include.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/coderhaoxin/gulp-file-include?branch=master
+[license-img]: http://img.shields.io/badge/license-MIT-green.svg?style=flat-square
+[license-url]: http://opensource.org/licenses/MIT
+[david-img]: https://img.shields.io/david/coderhaoxin/gulp-file-include.svg?style=flat-square
+[david-url]: https://david-dm.org/coderhaoxin/gulp-file-include
