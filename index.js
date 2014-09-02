@@ -20,10 +20,10 @@ module.exports = function(options) {
 
   var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)]*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
 
-  // Only removes single line HTML comments that use the format: <!-- @@include() -->
-  function stripHtmlCommentedIncludes(html) {
+  function stripCommentedIncludes(content) {
+    // remove single line html comments that use the format: <!-- @@include() -->
     var regex = new RegExp('<\!--(.*)' + prefix + 'include([\\s\\S]*?)-->', 'g');
-    return html.replace(regex, "");
+    return content.replace(regex, '');
   }
 
   function fileInclude(file) {
@@ -34,7 +34,7 @@ module.exports = function(options) {
     } else if (file.isStream()) {
       file.contents.pipe(concat(function(data) {
         var text = String(data);
-            text = stripHtmlCommentedIncludes(text);
+        text = stripCommentedIncludes(text);
 
         try {
           self.emit('data', include(file, text, includeRegExp, prefix, basepath, filters));
@@ -44,7 +44,7 @@ module.exports = function(options) {
       }));
     } else if (file.isBuffer()) {
       try {
-        self.emit('data', include(file, stripHtmlCommentedIncludes(String(file.contents)), includeRegExp, prefix, basepath, filters));
+        self.emit('data', include(file, stripCommentedIncludes(String(file.contents)), includeRegExp, prefix, basepath, filters));
       } catch (e) {
         self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
       }
@@ -71,7 +71,7 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
 
   basepath = path.resolve(process.cwd(), basepath);
 
-  // For checking if we are not including the current file again
+  // for checking if we are not including the current file again
   var currentFilename = path.resolve(file.base, file.path);
 
   while (matches) {
@@ -79,8 +79,7 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
     var includePath = path.resolve(basepath, matches[1]);
 
     if (currentFilename.toLowerCase() === includePath.toLowerCase()) {
-      // Will be emitted by try-catch block
-      throw new Error('Recursion detected in file: ' + currentFilename);
+      throw new Error('recursion detected in file: ' + currentFilename);
     }
 
     var includeContent = fs.readFileSync(includePath);

@@ -337,13 +337,12 @@ describe('## gulp-file-include', function() {
         contents: fs.createReadStream('test/fixtures/commentedInclusion.html')
       });
       var expected = fs.readFileSync('test/fixtures/commentedInclusionResult.html')
-                       .toString()
-                       .replace(/\s/g, "");
+        .toString().replace(/\s/g, '');
 
       var stream = fileIncludePlugin();
 
       stream.on('data', function(newFile) {
-        var inputString = String(newFile.contents).replace(/\s/g, "");
+        var inputString = String(newFile.contents).replace(/\s/g, '');
 
         inputString.should.equal(expected);
         done();
