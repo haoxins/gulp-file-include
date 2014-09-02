@@ -4,7 +4,9 @@
   "description": "a gulp plugin for file include",
   "main": "index.js",
   "scripts": {
-    "test": "make test"
+    "test": "./node_modules/.bin/_mocha --harmony -R spec -t 20 test/*.js",
+    "test-cov": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -R dot -t 20 test/*.js",
+    "test-travis": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 20 test/*.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,8 @@
   "homepage": "https://github.com/coderhaoxin/gulp-file-include",
   "devDependencies": {
     "gulp": "*",
-    "markdown": "^0.5.0",
+    "istanbul": "*",
+    "markdown": "*",
     "mocha": "*",
     "should": "*"
   },
@@ -35,6 +38,10 @@
     "event-stream": "^3.1.7",
     "gulp-util": "^2.2.20"
   },
+  "files": [
+    "index.js",
+    "Readme.md"
+  ],
   "directories": {
     "example": "example",
     "test": "test"
