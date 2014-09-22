@@ -7,12 +7,13 @@ var fs = require('fs'),
   gutil = require('gulp-util');
 
 module.exports = function(options) {
-  var prefix, basepath, filters;
+  var prefix, basepath, filters, data;
 
   if (typeof options === 'object') {
     prefix = options.prefix || '@@';
     basepath = options.basepath || '@file';
     filters = options.filters;
+    data    = options.data || {};
   } else {
     prefix = options || '@@';
     basepath = '@file';
@@ -37,14 +38,14 @@ module.exports = function(options) {
         text = stripCommentedIncludes(text);
 
         try {
-          self.emit('data', include(file, text, includeRegExp, prefix, basepath, filters));
+          self.emit('data', include(file, text, includeRegExp, prefix, basepath, filters, data));
         } catch (e) {
           self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
         }
       }));
     } else if (file.isBuffer()) {
       try {
-        self.emit('data', include(file, stripCommentedIncludes(String(file.contents)), includeRegExp, prefix, basepath, filters));
+        self.emit('data', include(file, stripCommentedIncludes(String(file.contents)), includeRegExp, prefix, basepath, filters, data));
       } catch (e) {
         self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
       }
@@ -54,9 +55,18 @@ module.exports = function(options) {
   return es.through(fileInclude);
 };
 
-function include(file, text, includeRegExp, prefix, basepath, filters) {
+function include(file, text, includeRegExp, prefix, basepath, filters, data) {
+  var matches = includeRegExp.exec(text),
+      data    = Object.create(data || {}),
+      includeData;
 
-  var matches = includeRegExp.exec(text);
+  if (matches[3]) {
+    includeData = JSON.parse(matches[3]);
+
+    for (var attr in includeData) {
+      data[attr] = includeData[attr];
+    }
+  }
 
   switch (basepath) {
     case '@file':
@@ -97,9 +107,8 @@ function include(file, text, includeRegExp, prefix, basepath, filters) {
 
     text = text.replace(match, includeContent);
 
-    if (matches[3]) {
+    if (Object.keys(data).length) {
       // replace variables
-      var data = JSON.parse(matches[3]);
       for (var k in data) {
         text = text.replace(new RegExp(prefix + k, 'g'), data[k]);
       }
