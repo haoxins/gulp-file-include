@@ -24,6 +24,7 @@ fileinclude('@@')
   - prefix: `string`, default `@@`
   - basepath: `string`, default `@file`, it could be `@root`, `@file`, `your-basepath`
   - filters: `object`, filters of include content
+  - context: `object`, context of `if` statement
 
 * options.basepath - type: `string`, it could be
   - `@root`, include file relative to the dir where `gulp` running in
@@ -75,8 +76,8 @@ var.html
 
 gulpfile.js
 ```js
-var gulp = require('gulp'),
-  fileinclude = require('gulp-file-include');
+var fileinclude = require('gulp-file-include'),
+  gulp = require('gulp');
 
 gulp.task('fileinclude', function() {
   gulp.src(['index.html'])
@@ -122,9 +123,9 @@ view
 ```
 
 ```js
-var gulp = require('gulp'),
-  fileinclude = require('gulp-file-include'),
-  markdown = require('markdown');
+var fileinclude = require('gulp-file-include'),
+  markdown = require('markdown'),
+  gulp = require('gulp');
 
 gulp.task('fileinclude', function() {
   gulp.src(['index.html'])
@@ -135,6 +136,22 @@ gulp.task('fileinclude', function() {
     }))
     .pipe(gulp.dest('./'));
 });
+```
+
+### `if` statement
+
+```js
+fileinclude({
+  context: {
+    name: 'test'
+  }
+});
+```
+
+```html
+@if (context.name === 'test') {
+  @@include('test.html')
+}
 ```
 
 ### License

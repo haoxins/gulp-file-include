@@ -1,12 +1,12 @@
 {
   "name": "gulp-file-include",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "a gulp plugin for file include",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/_mocha --harmony -R spec -t 200 test/*.js",
-    "test-cov": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -R dot -t 200 test/*.js",
-    "test-travis": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 200 test/*.js"
+    "test": "mocha -R spec -t 200 test/*.js",
+    "test-cov": "istanbul cover node_modules/.bin/_mocha -- -R dot -t 200 test/*.js",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 200 test/*.js"
   },
   "repository": {
     "type": "git",

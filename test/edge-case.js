@@ -1,9 +1,9 @@
 'use strict';
 
-var fileIncludePlugin = require('../'),
-  fs = require('fs'),
+var fileIncludePlugin = require('..'),
   gutil = require('gulp-util'),
-  should = require('should');
+  should = require('should'),
+  fs = require('fs');
 
 describe('## gulp-file-include', function() {
   describe('# edge cases', function() {
@@ -12,7 +12,7 @@ describe('## gulp-file-include', function() {
         path: 'test/fixtures-edge-case/index.html',
         contents: fs.createReadStream('test/fixtures-edge-case/index.html')
       });
-      var expected = fs.readFileSync('test/fixtures-edge-case/result.html').toString();
+      var expected = fs.readFileSync('test/fixtures-edge-case/result.html', 'utf8');
 
       var stream = fileIncludePlugin();
       stream.on('data', function(newFile) {
@@ -32,8 +32,7 @@ describe('## gulp-file-include', function() {
         path: 'test/fixtures-edge-case/commented-inclusion.html',
         contents: fs.createReadStream('test/fixtures-edge-case/commented-inclusion.html')
       });
-      var expected = fs.readFileSync('test/fixtures-edge-case/commented-inclusion-result.html')
-        .toString().replace(/\s/g, '');
+      var expected = fs.readFileSync('test/fixtures-edge-case/commented-inclusion-result.html', 'utf8').replace(/\s/g, '');
 
       var stream = fileIncludePlugin();
 

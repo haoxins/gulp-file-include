@@ -1,0 +1,19 @@
+@@if (context.content.indexOf('a.html')) {
+  @@include('a.html')
+}
+
+@@if(context.content.indexOf('a.html')){
+  @@include('a.html')
+}
+
+@@if context.content.indexOf('a.html') {
+  @@include('a.html')
+}
+
+@@if (context.content.length > 888) {
+  @@include('b.html')
+}
+
+@@if (context.name === 'c') {
+  @@include('c.html')
+}

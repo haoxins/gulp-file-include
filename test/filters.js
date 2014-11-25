@@ -1,13 +1,13 @@
 'use strict';
 
-var fileIncludePlugin = require('../'),
-  fs = require('fs'),
-  gutil = require('gulp-util'),
+var fileIncludePlugin = require('..'),
   markdown = require('markdown'),
-  should = require('should');
+  gutil = require('gulp-util'),
+  should = require('should'),
+  fs = require('fs');
 
 describe('## gulp-file-include', function() {
-  var result = fs.readFileSync('test/fixtures/result.html').toString();
+  var result = fs.readFileSync('test/fixtures/result.html', 'utf8');
 
   describe('# options - filters', function() {
     it('file - filters: markdown', function(done) {

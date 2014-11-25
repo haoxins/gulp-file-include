@@ -1,30 +1,26 @@
 'use strict';
 
-var fs = require('fs'),
-  path = require('path'),
-  concat = require('concat-stream'),
+var concat = require('concat-stream'),
   es = require('event-stream'),
-  gutil = require('gulp-util');
+  gutil = require('gulp-util'),
+  path = require('path'),
+  fs = require('fs');
 
 module.exports = function(options) {
-  var prefix, basepath, filters;
+  var prefix, basepath, filters, context;
 
   if (typeof options === 'object') {
-    prefix = options.prefix || '@@';
     basepath = options.basepath || '@file';
+    prefix = options.prefix || '@@';
+    context = options.context || {};
     filters = options.filters;
   } else {
     prefix = options || '@@';
     basepath = '@file';
+    context = {};
   }
 
   var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)]*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
-
-  function stripCommentedIncludes(content) {
-    // remove single line html comments that use the format: <!-- @@include() -->
-    var regex = new RegExp('<\!--(.*)' + prefix + 'include([\\s\\S]*?)-->', 'g');
-    return content.replace(regex, '');
-  }
 
   function fileInclude(file) {
     var self = this;
@@ -35,16 +31,21 @@ module.exports = function(options) {
       file.contents.pipe(concat(function(data) {
         var text = String(data);
         text = stripCommentedIncludes(text);
+        text = parseConditionalIncludes(text);
 
         try {
-          self.emit('data', include(file, text, includeRegExp, prefix, basepath, filters));
+          self.emit('data', include(file, text));
         } catch (e) {
           self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
         }
       }));
     } else if (file.isBuffer()) {
       try {
-        self.emit('data', include(file, stripCommentedIncludes(String(file.contents)), includeRegExp, prefix, basepath, filters));
+        var text = String(file.contents);
+        text = stripCommentedIncludes(text);
+        text = parseConditionalIncludes(text);
+
+        self.emit('data', include(file, text));
       } catch (e) {
         self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
       }
@@ -52,84 +53,121 @@ module.exports = function(options) {
   }
 
   return es.through(fileInclude);
-};
 
-function include(file, text, includeRegExp, prefix, basepath, filters) {
-
-  var matches = includeRegExp.exec(text);
-
-  switch (basepath) {
-    case '@file':
-      basepath = path.dirname(file.path);
-      break;
-    case '@root':
-      basepath = process.cwd();
-      break;
-    default:
-      break;
+  /**
+   * utils
+   */
+  function stripCommentedIncludes(content) {
+    // remove single line html comments that use the format: <!-- @@include() -->
+    var regex = new RegExp('<\!--(.*)' + prefix + 'include([\\s\\S]*?)-->', 'g');
+    return content.replace(regex, '');
   }
 
-  basepath = path.resolve(process.cwd(), basepath);
+  function parseConditionalIncludes(content) {
+    // parse @@if (something) { include('...') }
+    var regexp = new RegExp(prefix + 'if.*\\{[^{}]*\\}\\s*'),
+      matches = regexp.exec(content),
+      included = false;
 
-  // for checking if we are not including the current file again
-  var currentFilename = path.resolve(file.base, file.path);
+    context.content = content;
 
-  while (matches) {
-    var match = matches[0];
-    var includePath = path.resolve(basepath, matches[1]);
+    while (matches) {
+      var match = matches[0],
+        includeExps = /\{([^{}]*)\}/.exec(match)[1];
 
-    if (currentFilename.toLowerCase() === includePath.toLowerCase()) {
-      throw new Error('recursion detected in file: ' + currentFilename);
-    }
+      // jshint ignore: start
+      var exp = /if(.*)\{/.exec(match)[1];
+      included = new Function('var context = this; return ' + exp + ';').call(context);
+      // jshint ignore: end
 
-    var includeContent = fs.readFileSync(includePath);
-
-    // strip utf-8 BOM  https://github.com/joyent/node/issues/1918
-    includeContent = includeContent.toString('utf-8').replace(/\uFEFF/, '');
-
-    // need to double each `$` to escape it in the `replace` function
-    includeContent = includeContent.replace(/\$/gi, '$$$$');
-
-    // apply filters on include content
-    if (typeof filters === 'object') {
-      includeContent = applyFilters(filters, match, includeContent);
-    }
-
-    text = text.replace(match, includeContent);
-
-    if (matches[3]) {
-      // replace variables
-      var data = JSON.parse(matches[3]);
-      for (var k in data) {
-        text = text.replace(new RegExp(prefix + k, 'g'), data[k]);
+      if (included) {
+        content = content.replace(match, includeExps);
+      } else {
+        content = content.replace(match, '');
       }
+
+      matches = regexp.exec(content);
     }
 
-    matches = includeRegExp.exec(text);
+    return content;
   }
 
-  file.contents = new Buffer(text);
-  return file;
-}
+  function include(file, text) {
+    var matches = includeRegExp.exec(text);
 
-function applyFilters(filters, match, includeContent) {
-  if (match.match(/\)+$/)[0].length === 1) {
-    // nothing to filter return unchanged
-    return includeContent;
+    switch (basepath) {
+      case '@file':
+        basepath = path.dirname(file.path);
+        break;
+      case '@root':
+        basepath = process.cwd();
+        break;
+      default:
+        break;
+    }
+
+    basepath = path.resolve(process.cwd(), basepath);
+
+    // for checking if we are not including the current file again
+    var currentFilename = path.resolve(file.base, file.path);
+
+    while (matches) {
+      var match = matches[0];
+      var includePath = path.resolve(basepath, matches[1]);
+
+      if (currentFilename.toLowerCase() === includePath.toLowerCase()) {
+        throw new Error('recursion detected in file: ' + currentFilename);
+      }
+
+      var includeContent = fs.readFileSync(includePath);
+
+      // strip utf-8 BOM  https://github.com/joyent/node/issues/1918
+      includeContent = includeContent.toString('utf-8').replace(/\uFEFF/, '');
+
+      // need to double each `$` to escape it in the `replace` function
+      includeContent = includeContent.replace(/\$/gi, '$$$$');
+
+      // apply filters on include content
+      if (typeof filters === 'object') {
+        includeContent = applyFilters(includeContent, match);
+      }
+
+      text = text.replace(match, includeContent);
+
+      if (matches[3]) {
+        // replace variables
+        var data = JSON.parse(matches[3]);
+        for (var k in data) {
+          text = text.replace(new RegExp(prefix + k, 'g'), data[k]);
+        }
+      }
+
+      matches = includeRegExp.exec(text);
+    }
+
+    file.contents = new Buffer(text);
+    return file;
   }
 
-  // now get the ordered list of filters
-  var filterlist = match.split('(').slice(1, -1);
-  filterlist = filterlist.map(function(str) {
-    return filters[str.trim()];
-  });
+  function applyFilters(includeContent, match) {
+    if (match.match(/\)+$/)[0].length === 1) {
+      // nothing to filter return unchanged
+      return includeContent;
+    }
 
-  // compose them together into one function
-  var filter = filterlist.reduce(compose);
+    // now get the ordered list of filters
+    var filterlist = match.split('(').slice(1, -1);
+    filterlist = filterlist.map(function(str) {
+      return filters[str.trim()];
+    });
 
-  // and apply the composed function to the stringified content
-  return filter(String(includeContent));
-}
+    // compose them together into one function
+    var filter = filterlist.reduce(compose);
+
+    // and apply the composed function to the stringified content
+    return filter(String(includeContent));
+  }
+};
 
 function compose(f, g) {
   return function(x) {
