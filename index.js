@@ -93,27 +93,17 @@ module.exports = function(options) {
   }
 
   function include(file, text) {
+    var filebase = basepath === "@file" ? path.dirname(file.path) : basepath === "@root" ? process.cwd() : basepath;
     var matches = includeRegExp.exec(text);
 
-    switch (basepath) {
-      case '@file':
-        basepath = path.dirname(file.path);
-        break;
-      case '@root':
-        basepath = process.cwd();
-        break;
-      default:
-        break;
-    }
-
-    basepath = path.resolve(process.cwd(), basepath);
+    filebase = path.resolve(process.cwd(), filebase);
 
     // for checking if we are not including the current file again
     var currentFilename = path.resolve(file.base, file.path);
 
     while (matches) {
       var match = matches[0];
-      var includePath = path.resolve(basepath, matches[1]);
+      var includePath = path.resolve(filebase, matches[1]);
 
       if (currentFilename.toLowerCase() === includePath.toLowerCase()) {
         throw new Error('recursion detected in file: ' + currentFilename);
@@ -130,6 +120,18 @@ module.exports = function(options) {
       // apply filters on include content
       if (typeof filters === 'object') {
         includeContent = applyFilters(includeContent, match);
+      }
+
+      var recMatches = includeRegExp.exec(includeContent);
+      if (recMatches && basepath == "@file") {
+        var recFile = new gutil.File({
+          cwd: process.cwd(),
+          base: file.base,
+          path: includePath,
+          contents: new Buffer(includeContent)
+        });
+        recFile = include(recFile, includeContent);
+        includeContent = String(recFile.contents);
       }
 
       text = text.replace(match, includeContent);
