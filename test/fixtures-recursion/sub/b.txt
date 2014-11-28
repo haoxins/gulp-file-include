@@ -1,0 +1,4 @@
+this is b.txt
+@@include('../var.txt', {
+  "name": "from b.txt"
+})

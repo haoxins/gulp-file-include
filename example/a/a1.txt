@@ -1,4 +1,4 @@
 this is a1
 
 // include a2
-@@include('a/a2/a2.html')
+@@include('./a2.txt')

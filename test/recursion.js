@@ -5,20 +5,18 @@ var fileIncludePlugin = require('..'),
   should = require('should'),
   fs = require('fs');
 
-describe('## conditional include', function() {
-  var result = fs.readFileSync('test/fixtures-conditional-include/result.html', 'utf8');
+describe('## recursion include', function() {
+  var result = fs.readFileSync('test/fixtures-recursion/result.txt', 'utf8');
 
-  describe('# basic usage', function() {
+  describe('# basepath: @file', function() {
     it('file', function(done) {
       var file = new gutil.File({
-        path: 'test/fixtures-conditional-include/index.html',
-        contents: fs.readFileSync('test/fixtures-conditional-include/index.html')
+        path: 'test/fixtures-recursion/index.txt',
+        contents: fs.readFileSync('test/fixtures-recursion/index.txt')
       });
 
       var stream = fileIncludePlugin({
-        context: {
-          name: 'c'
-        }
+        basepath: '@file'
       });
       stream.on('data', function(newFile) {
         should.exist(newFile);
@@ -32,16 +30,14 @@ describe('## conditional include', function() {
       stream.end();
     });
 
-    it('stream - basepath: @file', function(done) {
+    it('stream', function(done) {
       var file = new gutil.File({
-        path: 'test/fixtures-conditional-include/index.html',
-        contents: fs.createReadStream('test/fixtures-conditional-include/index.html')
+        path: 'test/fixtures-recursion/index.txt',
+        contents: fs.createReadStream('test/fixtures-recursion/index.txt')
       });
 
       var stream = fileIncludePlugin({
-        context: {
-          name: 'c'
-        }
+        basepath: '@file'
       });
       stream.on('data', function(newFile) {
         should.exist(newFile);

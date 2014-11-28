@@ -1,0 +1,7 @@
+index
+
+@@include('a/a1.txt')
+
+@@if (context.name === 'example') {
+  @@include('conditional.txt')
+}

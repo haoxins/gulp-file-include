@@ -38,8 +38,6 @@ fileinclude({
 })
 ```
 
-**important**: `@file` is relative to the `file` pass to gulp, not the file `include expression` in, see [example](example)
-
 ```js
 fileinclude({
   prefix: '@@',
