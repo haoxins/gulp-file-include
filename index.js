@@ -139,15 +139,10 @@ module.exports = function(options) {
       if (matches[3]) {
         // replace variables
         var data = JSON.parse(matches[3]);
-        var i, k, keys = [];
+        var i, k, keys;
 
-        // grab keys & sort by longest keys first to iterate in that order
-        for (k in data) {
-          if (data.hasOwnProperty(k)) {
-            keys.push(k);
-          }
-        }
-        keys.sort().reverse();
+        // grab keys & sort by longest keys 1st to iterate in that order
+        keys = Object.keys(data).sort().reverse()
 
         for (i = 0; i < keys.length; i++) {
           k = keys[i];
