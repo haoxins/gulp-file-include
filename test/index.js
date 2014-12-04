@@ -7,6 +7,7 @@ var fileIncludePlugin = require('..'),
 
 describe('## gulp-file-include', function() {
   var result = fs.readFileSync('test/fixtures/result.html', 'utf8');
+  var resultSamePrefix = fs.readFileSync('test/fixtures/sameprefix-result.html', 'utf8');
 
   describe('# default', function() {
     it('file', function(done) {
@@ -302,6 +303,46 @@ describe('## gulp-file-include', function() {
         should.exist(newFile.contents);
 
         String(newFile.contents).should.equal(result);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+  });
+
+  describe('# vars - same key prefix', function() {
+    it('file', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures/sameprefix.html',
+        contents: fs.readFileSync('test/fixtures/sameprefix.html')
+      });
+
+      var stream = fileIncludePlugin();
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+
+        String(newFile.contents).should.equal(resultSamePrefix);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+
+    it('stream', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures/sameprefix.html',
+        contents: fs.createReadStream('test/fixtures/sameprefix.html')
+      });
+
+      var stream = fileIncludePlugin();
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+
+        String(newFile.contents).should.equal(resultSamePrefix);
         done();
       });
 
