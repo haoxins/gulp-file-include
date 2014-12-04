@@ -7,7 +7,7 @@ var fileIncludePlugin = require('..'),
 
 describe('## gulp-file-include', function() {
   var result = fs.readFileSync('test/fixtures/result.html', 'utf8');
-  var resultSamePrefix = fs.readFileSync('test/fixtures/result-sameprefix.html', 'utf8');
+  var resultSamePrefix = fs.readFileSync('test/fixtures/sameprefix-result.html', 'utf8');
 
   describe('# default', function() {
     it('file', function(done) {
@@ -314,8 +314,8 @@ describe('## gulp-file-include', function() {
   describe('# vars - same key prefix', function() {
     it('file', function(done) {
       var file = new gutil.File({
-        path: 'test/fixtures/index-04.html',
-        contents: fs.readFileSync('test/fixtures/index-04.html')
+        path: 'test/fixtures/sameprefix.html',
+        contents: fs.readFileSync('test/fixtures/sameprefix.html')
       });
 
       var stream = fileIncludePlugin();
@@ -333,8 +333,8 @@ describe('## gulp-file-include', function() {
 
     it('stream', function(done) {
       var file = new gutil.File({
-        path: 'test/fixtures/index-04.html',
-        contents: fs.createReadStream('test/fixtures/index-04.html')
+        path: 'test/fixtures/sameprefix.html',
+        contents: fs.createReadStream('test/fixtures/sameprefix.html')
       });
 
       var stream = fileIncludePlugin();
