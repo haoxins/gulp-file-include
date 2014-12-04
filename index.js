@@ -139,14 +139,12 @@ module.exports = function(options) {
       if (matches[3]) {
         // replace variables
         var data = JSON.parse(matches[3]);
-        var i, k, keys;
-
         // grab keys & sort by longest keys 1st to iterate in that order
-        keys = Object.keys(data).sort().reverse()
+        var keys = Object.keys(data).sort().reverse();
 
-        for (i = 0; i < keys.length; i++) {
-          k = keys[i];
-          text = text.replace(new RegExp(prefix + k, 'g'), data[k]);
+        for (var i = 0; i < keys.length; i++) {
+          var key = keys[i];
+          text = text.replace(new RegExp(prefix + key, 'g'), data[key]);
         }
       }
 
