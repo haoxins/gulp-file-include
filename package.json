@@ -35,8 +35,8 @@
   },
   "dependencies": {
     "concat-stream": "^1.4.7",
-    "event-stream": "^3.1.7",
-    "gulp-util": "^3.0.1"
+    "event-stream": "^3.2.1",
+    "gulp-util": "^3.0.2"
   },
   "files": [
     "index.js",

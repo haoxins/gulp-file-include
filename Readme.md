@@ -147,7 +147,7 @@ fileinclude({
 ```
 
 ```html
-@if (context.name === 'test') {
+@@if (context.name === 'test') {
   @@include('test.html')
 }
 ```
