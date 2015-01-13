@@ -147,7 +147,9 @@ fileinclude({
 ```
 
 ```html
-@@if (context.name === 'test') {
+@@include('some.html', { "nav": true })
+
+@@if (name === 'test' && nav === true) {
   @@include('test.html')
 }
 ```

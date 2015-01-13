@@ -1,6 +1,7 @@
 'use strict';
 
 var concat = require('concat-stream'),
+  merge = require('merge').recursive,
   es = require('event-stream'),
   gutil = require('gulp-util'),
   path = require('path'),
@@ -29,23 +30,16 @@ module.exports = function(options) {
       self.emit('data', file);
     } else if (file.isStream()) {
       file.contents.pipe(concat(function(data) {
-        var text = String(data);
-        text = stripCommentedIncludes(text);
-        text = parseConditionalIncludes(text);
-
         try {
-          self.emit('data', include(file, text));
+          self.emit('data', include(file, String(data)));
         } catch (e) {
           self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
         }
       }));
     } else if (file.isBuffer()) {
       try {
-        var text = String(file.contents);
-        text = stripCommentedIncludes(text);
-        text = parseConditionalIncludes(text);
-
-        self.emit('data', include(file, text));
+        file = include(file, String(file.contents));
+        self.emit('data', file);
       } catch (e) {
         self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
       }
@@ -63,25 +57,27 @@ module.exports = function(options) {
     return content.replace(regex, '');
   }
 
-  function parseConditionalIncludes(content) {
+  function parseConditionalIncludes(content, variables) {
     // parse @@if (something) { include('...') }
     var regexp = new RegExp(prefix + 'if.*\\{[^{}]*\\}\\s*'),
       matches = regexp.exec(content),
       included = false;
 
-    context.content = content;
+    var ctx = merge(true, context);
+    merge(ctx, variables);
+    if (!ctx.content) ctx.content = content;
 
     while (matches) {
       var match = matches[0],
-        includeExps = /\{([^{}]*)\}/.exec(match)[1];
+        includeContent = /\{([^{}]*)\}/.exec(match)[1];
 
       // jshint ignore: start
       var exp = /if(.*)\{/.exec(match)[1];
-      included = new Function('var context = this; return ' + exp + ';').call(context);
+      included = new Function('var context = this; with (context) { return ' + exp + '; }').call(ctx);
       // jshint ignore: end
 
       if (included) {
-        content = content.replace(match, includeExps);
+        content = content.replace(match, includeContent);
       } else {
         content = content.replace(match, '');
       }
@@ -93,7 +89,10 @@ module.exports = function(options) {
   }
 
   function include(file, text) {
-    var filebase = basepath === "@file" ? path.dirname(file.path) : basepath === "@root" ? process.cwd() : basepath;
+    text = stripCommentedIncludes(text);
+    var variables = {};
+
+    var filebase = basepath === '@file' ? path.dirname(file.path) : basepath === '@root' ? process.cwd() : basepath;
     var matches = includeRegExp.exec(text);
 
     filebase = path.resolve(process.cwd(), filebase);
@@ -123,7 +122,7 @@ module.exports = function(options) {
       }
 
       var recMatches = includeRegExp.exec(includeContent);
-      if (recMatches && basepath == "@file") {
+      if (recMatches && basepath == '@file') {
         var recFile = new gutil.File({
           cwd: process.cwd(),
           base: file.base,
@@ -139,6 +138,7 @@ module.exports = function(options) {
       if (matches[3]) {
         // replace variables
         var data = JSON.parse(matches[3]);
+        merge(variables, data);
         // grab keys & sort by longest keys 1st to iterate in that order
         var keys = Object.keys(data).sort().reverse();
 
@@ -150,6 +150,8 @@ module.exports = function(options) {
 
       matches = includeRegExp.exec(text);
     }
+
+    text = parseConditionalIncludes(text, variables);
 
     file.contents = new Buffer(text);
     return file;
