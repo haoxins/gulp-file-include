@@ -1,0 +1,8 @@
+hello world!
+This: $& should not trigger recursive includes.
+without trailing newline
+This: $& should not trigger recursive includes.
+!@
+!!This: $& should not trigger recursive includes.
+!@
+bye

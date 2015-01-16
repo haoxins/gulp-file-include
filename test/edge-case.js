@@ -27,6 +27,26 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
+    it('should work without trailing newline', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures-edge-case/without-trailing-newline.txt',
+        contents: fs.createReadStream('test/fixtures-edge-case/without-trailing-newline.txt')
+      });
+      var expected = fs.readFileSync('test/fixtures-edge-case/without-trailing-newline-result.txt', 'utf8');
+
+      var stream = fileIncludePlugin();
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+
+        String(newFile.contents).should.equal(expected);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+
     it('should skip commented includes', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures-edge-case/commented-inclusion.html',

@@ -1,0 +1,5 @@
+hello world!
+@@include('dangerous.txt')without trailing newline
+@@include('dangerous.txt')!@
+!!@@include('dangerous.txt')!@
+bye
