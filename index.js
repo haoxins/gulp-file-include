@@ -2,7 +2,7 @@
 
 var concat = require('concat-stream'),
   merge = require('merge').recursive,
-  es = require('event-stream'),
+  through = require('through2'),
   gutil = require('gulp-util'),
   PluginError = gutil.PluginError,
   path = require('path'),
@@ -26,7 +26,7 @@ module.exports = function(options) {
 
   var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)]*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
 
-  function fileInclude(file) {
+  function fileInclude(file, enc, cb) {
     var self = this;
 
     if (file.isNull()) {
@@ -48,7 +48,7 @@ module.exports = function(options) {
     }
   }
 
-  return es.through(fileInclude);
+  return through.obj(fileInclude);
 
   /**
    * utils
