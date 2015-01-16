@@ -4,6 +4,7 @@ var concat = require('concat-stream'),
   merge = require('merge').recursive,
   es = require('event-stream'),
   gutil = require('gulp-util'),
+  PluginError = gutil.PluginError,
   path = require('path'),
   fs = require('fs');
 
@@ -33,15 +34,14 @@ module.exports = function(options) {
         try {
           self.emit('data', include(file, String(data)));
         } catch (e) {
-          self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
+          self.emit('error', new PluginError('gulp-file-include', e.message));
         }
       }));
     } else if (file.isBuffer()) {
       try {
-        file = include(file, String(file.contents));
-        self.emit('data', file);
+        self.emit('data', include(file, String(file.contents)));
       } catch (e) {
-        self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
+        self.emit('error', new PluginError('gulp-file-include', e.message));
       }
     }
   }
