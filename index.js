@@ -8,6 +8,8 @@ var concat = require('concat-stream'),
   path = require('path'),
   fs = require('fs');
 
+var PLUGIN_NAME = 'gulp-file-include';
+
 module.exports = function(options) {
   var prefix, basepath, filters, context;
 
@@ -34,14 +36,14 @@ module.exports = function(options) {
         try {
           self.emit('data', include(file, String(data)));
         } catch (e) {
-          self.emit('error', new PluginError('gulp-file-include', e.message));
+          self.emit('error', new PluginError(PLUGIN_NAME, e.message));
         }
       }));
     } else if (file.isBuffer()) {
       try {
         self.emit('data', include(file, String(file.contents)));
       } catch (e) {
-        self.emit('error', new PluginError('gulp-file-include', e.message));
+        self.emit('error', new PluginError(PLUGIN_NAME, e.message));
       }
     }
   }
