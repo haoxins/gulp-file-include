@@ -27,23 +27,25 @@ module.exports = function(options) {
   var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)]*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
 
   function fileInclude(file, enc, cb) {
-    var self = this;
-
     if (file.isNull()) {
-      self.emit('data', file);
-    } else if (file.isStream()) {
+      cb(null, file);
+    }
+
+    if (file.isStream()) {
       file.contents.pipe(concat(function(data) {
         try {
-          self.emit('data', include(file, String(data)));
+          cb(null, include(file, String(data)));
         } catch (e) {
-          self.emit('error', new PluginError(PLUGIN_NAME, e.message));
+          cb(new PluginError(PLUGIN_NAME, e.message));
         }
       }));
-    } else if (file.isBuffer()) {
+    }
+
+    if (file.isBuffer()) {
       try {
-        self.emit('data', include(file, String(file.contents)));
+        cb(null, include(file, String(file.contents)));
       } catch (e) {
-        self.emit('error', new PluginError(PLUGIN_NAME, e.message));
+        cb(new PluginError(PLUGIN_NAME, e.message));
       }
     }
   }
