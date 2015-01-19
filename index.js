@@ -32,13 +32,7 @@ module.exports = function(options) {
     }
 
     if (file.isStream()) {
-      file.contents.pipe(concat(function(data) {
-        try {
-          cb(null, include(file, String(data)));
-        } catch (e) {
-          cb(new PluginError(PLUGIN_NAME, e.message));
-        }
-      }));
+      cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
     }
 
     if (file.isBuffer()) {
