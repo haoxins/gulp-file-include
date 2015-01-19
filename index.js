@@ -2,10 +2,13 @@
 
 var concat = require('concat-stream'),
   merge = require('merge').recursive,
-  es = require('event-stream'),
+  through = require('through2'),
   gutil = require('gulp-util'),
+  PluginError = gutil.PluginError,
   path = require('path'),
   fs = require('fs');
+
+var PLUGIN_NAME = 'gulp-file-include';
 
 module.exports = function(options) {
   var prefix, basepath, filters, context;
@@ -23,30 +26,25 @@ module.exports = function(options) {
 
   var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)]*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
 
-  function fileInclude(file) {
-    var self = this;
-
+  function fileInclude(file, enc, cb) {
     if (file.isNull()) {
-      self.emit('data', file);
-    } else if (file.isStream()) {
-      file.contents.pipe(concat(function(data) {
-        try {
-          self.emit('data', include(file, String(data)));
-        } catch (e) {
-          self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
-        }
-      }));
-    } else if (file.isBuffer()) {
+      cb(null, file);
+    }
+
+    if (file.isStream()) {
+      cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
+    }
+
+    if (file.isBuffer()) {
       try {
-        file = include(file, String(file.contents));
-        self.emit('data', file);
+        cb(null, include(file, String(file.contents)));
       } catch (e) {
-        self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
+        cb(new PluginError(PLUGIN_NAME, e.message));
       }
     }
   }
 
-  return es.through(fileInclude);
+  return through.obj(fileInclude);
 
   /**
    * utils
