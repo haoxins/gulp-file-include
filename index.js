@@ -2,7 +2,7 @@
 
 var concat = require('concat-stream'),
   merge = require('merge').recursive,
-  es = require('event-stream'),
+  through = require('through2'),
   gutil = require('gulp-util'),
   path = require('path'),
   fs = require('fs');
@@ -46,7 +46,7 @@ module.exports = function(options) {
     }
   }
 
-  return es.through(fileInclude);
+  return through.obj(fileInclude);
 
   /**
    * utils
