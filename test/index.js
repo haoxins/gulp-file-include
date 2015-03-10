@@ -7,6 +7,7 @@ var fileIncludePlugin = require('..'),
 
 describe('## gulp-file-include', function() {
   var result = fs.readFileSync('test/fixtures/result.html', 'utf8');
+  var resultJS = fs.readFileSync('test/fixtures/result.js', 'utf8');
   var resultSamePrefix = fs.readFileSync('test/fixtures/sameprefix-result.html', 'utf8');
 
   describe('# default', function() {
@@ -350,4 +351,30 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
   });
+
+  describe('# aggressive regex', function() {
+    it('stream - basepath: @root', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures/index-04.js',
+        contents: fs.createReadStream('test/fixtures/index-04.js')
+      });
+
+      var stream = fileIncludePlugin({
+        prefix: '@@',
+        basepath: '@root'
+      });
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+
+        console.log(newFile.contents + "");
+
+        String(newFile.contents).should.equal(resultJS);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+  })
 });
