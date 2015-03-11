@@ -23,25 +23,24 @@ module.exports = function(options) {
 
   var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)"\']*["\']([^"\']*)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
 
-  function fileInclude(file) {
-    var self = this;
-
+  function fileInclude(file, enc, cb) {
     if (file.isNull()) {
-      self.emit('data', file);
+      cb(null, file);
     } else if (file.isStream()) {
       file.contents.pipe(concat(function(data) {
         try {
-          self.emit('data', include(file, String(data)));
+          data = include(file, String(data));
+          cb(null, data);
         } catch (e) {
-          self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
+          cb(new gutil.PluginError('gulp-file-include', e.message));
         }
       }));
     } else if (file.isBuffer()) {
       try {
         file = include(file, String(file.contents));
-        self.emit('data', file);
+        cb(null, file);
       } catch (e) {
-        self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
+        cb(new gutil.PluginError('gulp-file-include', e.message));
       }
     }
   }
