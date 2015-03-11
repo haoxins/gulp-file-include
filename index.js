@@ -21,7 +21,7 @@ module.exports = function(options) {
     context = {};
   }
 
-  var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)]*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
+  var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)"\']*["\']([^"\']*)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
 
   function fileInclude(file) {
     var self = this;
