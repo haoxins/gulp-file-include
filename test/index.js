@@ -366,9 +366,6 @@ describe('## gulp-file-include', function() {
       stream.on('data', function(newFile) {
         should.exist(newFile);
         should.exist(newFile.contents);
-
-        console.log(newFile.contents + "");
-
         String(newFile.contents).should.equal(resultJS);
         done();
       });
