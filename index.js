@@ -8,20 +8,22 @@ var concat = require('concat-stream'),
   fs = require('fs');
 
 module.exports = function(options) {
-  var prefix, basepath, filters, context;
+  var prefix, suffix, basepath, filters, context;
 
   if (typeof options === 'object') {
     basepath = options.basepath || '@file';
     prefix = options.prefix || '@@';
+    suffix = options.suffix || '';
     context = options.context || {};
     filters = options.filters;
   } else {
     prefix = options || '@@';
+    suffix = '';
     basepath = '@file';
     context = {};
   }
 
-  var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)"\']*["\']([^"\']*)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+');
+  var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)"\']*["\']([^"\']*)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+' + suffix);
 
   function fileInclude(file, enc, cb) {
     if (file.isNull()) {
@@ -52,13 +54,13 @@ module.exports = function(options) {
    */
   function stripCommentedIncludes(content) {
     // remove single line html comments that use the format: <!-- @@include() -->
-    var regex = new RegExp('<\!--(.*)' + prefix + 'include([\\s\\S]*?)-->', 'g');
+    var regex = new RegExp('<\!--(.*)' + prefix + 'include([\\s\\S]*?)' + suffix + '-->', 'g');
     return content.replace(regex, '');
   }
 
   function parseConditionalIncludes(content, variables) {
     // parse @@if (something) { include('...') }
-    var regexp = new RegExp(prefix + 'if.*\\{[^{}]*\\}\\s*'),
+    var regexp = new RegExp(prefix + 'if.*\\{[^{}]*\\}\\s*' + suffix),
       matches = regexp.exec(content),
       included = false;
 
