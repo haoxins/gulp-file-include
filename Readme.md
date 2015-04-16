@@ -22,6 +22,7 @@ fileinclude('@@')
 
 * options - type: `object`
   - prefix: `string`, default `@@`
+  - suffix: `string`, default `''`
   - basepath: `string`, default `@file`, it could be `@root`, `@file`, `your-basepath`
   - filters: `object`, filters of include content
   - context: `object`, context of `if` statement

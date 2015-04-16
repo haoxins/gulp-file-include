@@ -312,6 +312,52 @@ describe('## gulp-file-include', function() {
     });
   });
 
+  describe('# options - suffix', function() {
+    it('file', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures-suffix/index.html',
+        contents: fs.readFileSync('test/fixtures-suffix/index.html')
+      });
+
+      var stream = fileIncludePlugin({
+        suffix: '@@'
+      });
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+        // TODO
+        (String(newFile.contents) === result).should.equal(true);
+        // String(newFile.contents).should.equal(result);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+
+    it('stream', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures-suffix/index.html',
+        contents: fs.createReadStream('test/fixtures-suffix/index.html')
+      });
+
+      var stream = fileIncludePlugin({
+        suffix: '@@'
+      });
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+        // TODO
+        (String(newFile.contents) === result).should.equal(true);
+        // String(newFile.contents).should.equal(result);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+  });
+
   describe('# vars - same key prefix', function() {
     it('file', function(done) {
       var file = new gutil.File({
@@ -353,6 +399,27 @@ describe('## gulp-file-include', function() {
   });
 
   describe('# aggressive regex', function() {
+    it('file - basepath: @root', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures/index-04.js',
+        contents: fs.readFileSync('test/fixtures/index-04.js')
+      });
+
+      var stream = fileIncludePlugin({
+        prefix: '@@',
+        basepath: '@root'
+      });
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+        String(newFile.contents).should.equal(resultJS);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+
     it('stream - basepath: @root', function(done) {
       var file = new gutil.File({
         path: 'test/fixtures/index-04.js',

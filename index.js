@@ -145,7 +145,7 @@ module.exports = function(options) {
 
         for (var i = 0; i < keys.length; i++) {
           var key = keys[i];
-          text = text.replace(new RegExp(prefix + key, 'g'), data[key]);
+          text = text.replace(new RegExp(prefix + key + suffix, 'g'), data[key]);
         }
       }
 
