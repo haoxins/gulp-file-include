@@ -147,7 +147,7 @@ fileinclude({
 });
 ```
 
-```html
+```
 @@include('some.html', { "nav": true })
 
 @@if (name === 'test' && nav === true) {
