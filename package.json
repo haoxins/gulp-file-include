@@ -1,6 +1,6 @@
 {
   "name": "gulp-file-include",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "a gulp plugin for file include",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,9 @@
     "plugin"
   ],
   "author": "haoxin",
+  "contributors": [
+    "Bogdan Chadkin <trysound@yandex.ru>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/coderhaoxin/gulp-file-include/issues"
@@ -38,13 +41,5 @@
     "gulp-util": "^3.0.4",
     "merge": "^1.2.0",
     "through2": "^0.6.3"
-  },
-  "files": [
-    "index.js",
-    "Readme.md"
-  ],
-  "directories": {
-    "example": "example",
-    "test": "test"
   }
 }
