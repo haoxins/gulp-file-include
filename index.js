@@ -109,10 +109,7 @@ module.exports = function(options) {
         throw new Error('recursion detected in file: ' + currentFilename);
       }
 
-      var includeContent = fs.readFileSync(includePath);
-
-      // strip utf-8 BOM  https://github.com/joyent/node/issues/1918
-      includeContent = includeContent.toString('utf-8').replace(/\uFEFF/, '');
+      var includeContent = fs.readFileSync(includePath, 'utf-8');
 
       // need to double each `$` to escape it in the `replace` function
       includeContent = includeContent.replace(/\$/gi, '$$$$');
