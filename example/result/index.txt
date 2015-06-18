@@ -14,6 +14,18 @@ this is b2
 
 
 
+example
+
 
   this is conditional
 
+Defined in parent "success"
+Context variable "example"
+
+  this is conditional
+
+Defined in parent "success too"
+Context variable "example"
+
+
+  Defined in include @@param

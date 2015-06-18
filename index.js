@@ -58,15 +58,13 @@ module.exports = function(options) {
     return content.replace(regex, '');
   }
 
-  function parseConditionalIncludes(content, variables) {
+  function parseConditionalIncludes(content, data) {
     // parse @@if (something) { include('...') }
     var regexp = new RegExp(prefix + 'if.*\\{[^{}]*\\}\\s*' + suffix),
       matches = regexp.exec(content),
       included = false;
 
-    var ctx = merge(true, context);
-    merge(ctx, variables);
-    if (!ctx.content) ctx.content = content;
+    if (!data.content) data.content = content;
 
     while (matches) {
       var match = matches[0],
@@ -74,7 +72,7 @@ module.exports = function(options) {
 
       // jshint ignore: start
       var exp = /if(.*)\{/.exec(match)[1];
-      included = new Function('var context = this; with (context) { return ' + exp + '; }').call(ctx);
+      included = new Function('var context = this; with (context) { return ' + exp + '; }').call(data);
       // jshint ignore: end
 
       if (included) {
@@ -89,9 +87,16 @@ module.exports = function(options) {
     return content;
   }
 
-  function include(file, text) {
+  function include(file, text, data) {
+    data = merge(true, context, data || {});
     text = stripCommentedIncludes(text);
-    var variables = {};
+
+    // grab keys & sort by longest keys 1st to iterate in that order
+    var keys = Object.keys(data).sort();
+    var i = keys.length - 1;
+    for ( ; ~i; i -= 1) {
+      text = text.replace(new RegExp(prefix + keys[i] + suffix, 'g'), data[keys[i]]);
+    }
 
     var filebase = basepath === '@file' ? path.dirname(file.path) : basepath === '@root' ? process.cwd() : basepath;
     var matches = includeRegExp.exec(text);
@@ -104,7 +109,6 @@ module.exports = function(options) {
     while (matches) {
       var match = matches[0];
       var includePath = path.resolve(filebase, matches[1]);
-
       if (currentFilename.toLowerCase() === includePath.toLowerCase()) {
         throw new Error('recursion detected in file: ' + currentFilename);
       }
@@ -119,37 +123,21 @@ module.exports = function(options) {
         includeContent = applyFilters(includeContent, match);
       }
 
-      var recMatches = includeRegExp.exec(includeContent);
-      if (recMatches && basepath == '@file') {
-        var recFile = new gutil.File({
-          cwd: process.cwd(),
-          base: file.base,
-          path: includePath,
-          contents: new Buffer(includeContent)
-        });
-        recFile = include(recFile, includeContent);
-        includeContent = String(recFile.contents);
-      }
+      var recFile = new gutil.File({
+        cwd: process.cwd(),
+        base: file.base,
+        path: includePath,
+        contents: new Buffer(includeContent)
+      });
+      recFile = include(recFile, includeContent, matches[3] ? JSON.parse(matches[3]) : {});
+      includeContent = String(recFile.contents);
 
       text = text.replace(match, includeContent);
-
-      if (matches[3]) {
-        // replace variables
-        var data = JSON.parse(matches[3]);
-        merge(variables, data);
-        // grab keys & sort by longest keys 1st to iterate in that order
-        var keys = Object.keys(data).sort().reverse();
-
-        for (var i = 0; i < keys.length; i++) {
-          var key = keys[i];
-          text = text.replace(new RegExp(prefix + key + suffix, 'g'), data[key]);
-        }
-      }
 
       matches = includeRegExp.exec(text);
     }
 
-    text = parseConditionalIncludes(text, variables);
+    text = parseConditionalIncludes(text, data);
 
     file.contents = new Buffer(text);
     return file;

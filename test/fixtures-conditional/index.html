@@ -22,10 +22,10 @@
   "title": "haoxin"
 })
 
-@@if (name === 'c' && title === 'haoxin') {
+@@if (name === 'c' && context.title === 'haoxin') {
   @@include('c.html')
 }
 
-@@if (name === 'c' && title !== 'haoxin') {
+@@if (name === 'c' && context.title !== 'haoxin') {
   @@include('c.html')
 }

@@ -2,6 +2,15 @@ index
 
 @@include('a/a1.txt')
 
+@@name
+
 @@if (context.name === 'example') {
-  @@include('conditional.txt')
+  @@include('conditional.txt', {
+  	"param": "success"
+  })
+  @@include('conditional.txt', {
+  	"param": "success too"
+  })
+
+  Defined in include @@param
 }
