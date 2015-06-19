@@ -1,6 +1,7 @@
 'use strict';
 
 var concat = require('concat-stream'),
+  flatten = require('flatnest').flatten,
   merge = require('merge').recursive,
   through = require('through2'),
   gutil = require('gulp-util'),
@@ -92,10 +93,14 @@ module.exports = function(options) {
     text = stripCommentedIncludes(text);
 
     // grab keys & sort by longest keys 1st to iterate in that order
-    var keys = Object.keys(data).sort();
+    var variables = flatten(data);
+    var keys = Object.keys(variables).sort();
     var i = keys.length - 1;
+    var key;
     for ( ; ~i; i -= 1) {
-      text = text.replace(new RegExp(prefix + keys[i] + suffix, 'g'), data[keys[i]]);
+      if(key = keys[i]) {
+        text = text.replace(new RegExp(prefix + key + suffix, 'g'), variables[key]);
+      }
     }
 
     var filebase = basepath === '@file' ? path.dirname(file.path) : basepath === '@root' ? process.cwd() : basepath;

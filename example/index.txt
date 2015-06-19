@@ -6,7 +6,10 @@ index
 
 @@if (context.name === 'example') {
   @@include('conditional.txt', {
-  	"param": "success"
+  	"param": "success",
+  	"obj": {
+  		"obj_param": "flatten param"
+  	}
   })
   @@include('conditional.txt', {
   	"param": "success too"

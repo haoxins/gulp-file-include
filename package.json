@@ -1,6 +1,6 @@
 {
   "name": "gulp-file-include",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "a gulp plugin for file include",
   "main": "index.js",
   "scripts": {
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "concat-stream": "^1.4.7",
+    "flatnest": "^0.2.2",
     "gulp-util": "^3.0.4",
     "merge": "^1.2.0",
     "through2": "^2.0.0"

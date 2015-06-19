@@ -19,11 +19,15 @@ example
 
   this is conditional
 
+Flatten object "@@obj"
+
+Flatten variable "flatten param"
 Defined in parent "success"
 Context variable "example"
 
   this is conditional
 
+Flatten object "@@obj"
 Defined in parent "success too"
 Context variable "example"
 

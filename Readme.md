@@ -56,7 +56,11 @@ index.html
   @@include('./view.html')
   @@include('./var.html', {
     "name": "haoxin",
-    "age": 12345
+    "age": 12345,
+    "socials": {
+      "fb": "facebook.com/include",
+      "tw": "twitter.com/include"
+    }
   })
   </body>
 </html>
@@ -71,6 +75,8 @@ var.html
 ```html
 <label>@@name</label>
 <label>@@age</label>
+<strong>@@socials.fb</strong>
+<strong>@@socials.tw</strong>
 ```
 
 gulpfile.js
@@ -96,6 +102,8 @@ and the result is:
   <h1>view</h1>
   <label>haoxin</label>
 <label>12345</label>
+<strong>facebook.com/include</strong>
+<strong>twitter.com/include</strong>
   </body>
 </html>
 ```
