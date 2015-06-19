@@ -3,6 +3,7 @@
 [![Test coverage][coveralls-img]][coveralls-url]
 [![License][license-img]][license-url]
 [![Dependency status][david-img]][david-url]
+[![Gitter][gitter-img]][gitter-url]
 
 ### gulp-file-include
 a plugin of gulp for file include
@@ -176,3 +177,5 @@ MIT
 [license-url]: http://opensource.org/licenses/MIT
 [david-img]: https://img.shields.io/david/coderhaoxin/gulp-file-include.svg?style=flat-square
 [david-url]: https://david-dm.org/coderhaoxin/gulp-file-include
+[gitter-img]: https://badges.gitter.im/Join%20Chat.svg
+[gitter-url]: https://gitter.im/coderhaoxin/gulp-file-include?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
