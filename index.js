@@ -98,9 +98,8 @@ module.exports = function(options) {
     var i = keys.length - 1;
     var key;
     for ( ; ~i; i -= 1) {
-      if(key = keys[i]) {
-        text = text.replace(new RegExp(prefix + key + suffix, 'g'), variables[key]);
-      }
+      key = keys[i];
+      text = text.replace(new RegExp(prefix + key + suffix, 'g'), variables[key]);
     }
 
     var filebase = basepath === '@file' ? path.dirname(file.path) : basepath === '@root' ? process.cwd() : basepath;
