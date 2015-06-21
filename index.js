@@ -97,7 +97,7 @@ module.exports = function(options) {
     var keys = Object.keys(variables).sort();
     var i = keys.length - 1;
     var key;
-    for ( ; ~i; i -= 1) {
+    for (; ~i; i -= 1) {
       key = keys[i];
       text = text.replace(new RegExp(prefix + key + suffix, 'g'), variables[key]);
     }

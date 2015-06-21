@@ -1,6 +1,6 @@
 (function(okanjo) {
 
-  okanjo.mvc.registerCss('main', '@@include(jsStringEscape('./test/fixtures/view.html'))', {
+  okanjo.mvc.registerCss('main', '@@include(jsStringEscape("./test/fixtures/view.html"))', {
     id: 'okanjo-test-main'
   });
 
