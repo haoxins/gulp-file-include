@@ -24,7 +24,7 @@ module.exports = function(options) {
     context = {};
   }
 
-  var includeRegExp = new RegExp(prefix + 'include\\s*\\([^)"\']*["\']([^"\']*)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+' + suffix);
+  var includeRegExp = new RegExp(prefix + '[ ]*include\\s*\\([^)"\']*["\']([^"\']*)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+[ ]*' + suffix);
 
   function fileInclude(file, enc, cb) {
     if (file.isNull()) {
@@ -55,13 +55,13 @@ module.exports = function(options) {
    */
   function stripCommentedIncludes(content) {
     // remove single line html comments that use the format: <!-- @@include() -->
-    var regex = new RegExp('<\!--(.*)' + prefix + 'include([\\s\\S]*?)' + suffix + '-->', 'g');
+    var regex = new RegExp('<\!--(.*)' + prefix + '[ ]*include([\\s\\S]*?)[ ]*' + suffix + '-->', 'g');
     return content.replace(regex, '');
   }
 
   function parseConditionalIncludes(content, data) {
     // parse @@if (something) { include('...') }
-    var regexp = new RegExp(prefix + 'if.*\\{[^{}]*\\}\\s*' + suffix),
+    var regexp = new RegExp(prefix + '[ ]*if.*\\{[^{}]*\\}\\s*' + suffix),
       matches = regexp.exec(content),
       included = false;
 
@@ -99,7 +99,7 @@ module.exports = function(options) {
     var key;
     for (; ~i; i -= 1) {
       key = keys[i];
-      text = text.replace(new RegExp(prefix + key + suffix, 'g'), variables[key]);
+      text = text.replace(new RegExp(prefix + '[ ]*' + key + '[ ]*' + suffix, 'g'), variables[key]);
     }
 
     var filebase = basepath === '@file' ? path.dirname(file.path) : basepath === '@root' ? process.cwd() : basepath;
