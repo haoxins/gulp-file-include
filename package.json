@@ -37,6 +37,7 @@
     "should": "*"
   },
   "dependencies": {
+    "balanced-match": "^0.2.0",
     "concat-stream": "^1.4.7",
     "flatnest": "^1.0.0",
     "gulp-util": "^3.0.4",
@@ -44,6 +45,7 @@
     "through2": "^2.0.0"
   },
   "files": [
+    "lib",
     "index.js",
     "Readme.md"
   ]

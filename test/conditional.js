@@ -1,58 +1,36 @@
 'use strict';
 
-var fileIncludePlugin = require('..'),
-  gutil = require('gulp-util'),
-  should = require('should'),
-  fs = require('fs');
+var parse = require('../lib/conditional');
+var should = require('should');
+var fs = require('fs');
 
-describe('## conditional include', function() {
-  var result = fs.readFileSync('test/fixtures-conditional/result.html', 'utf8');
+describe('## conditional', function() {
 
-  describe('# basic usage', function() {
-    it('file', function(done) {
-      var file = new gutil.File({
-        path: 'test/fixtures-conditional/index.html',
-        contents: fs.readFileSync('test/fixtures-conditional/index.html')
-      });
+  it('# basic usage', function(done) {
+    var result = fs.readFileSync('test/fixtures-conditional/result-index.html', 'utf-8');
+    var index = fs.readFileSync('test/fixtures-conditional/index.html', 'utf-8');
 
-      var stream = fileIncludePlugin({
-        context: {
-          name: 'c'
-        }
-      });
-      stream.on('data', function(newFile) {
-        should.exist(newFile);
-        should.exist(newFile.contents);
+    parse(index, {
+      name: 'c'
+    }, {
+      prefix: '@@',
+      suffix: ''
+    }).should.equal(result);
 
-        String(newFile.contents).should.equal(result);
-        done();
-      });
+    done();
+  });
 
-      stream.write(file);
-      stream.end();
-    });
+  it('# with suffix', function(done) {
+    var result = fs.readFileSync('test/fixtures-conditional/result-suffix.html', 'utf-8');
+    var index = fs.readFileSync('test/fixtures-conditional/suffix.html', 'utf-8');
 
-    it('stream', function(done) {
-      var file = new gutil.File({
-        path: 'test/fixtures-conditional/index.html',
-        contents: fs.createReadStream('test/fixtures-conditional/index.html')
-      });
+    parse(index, {
+      name: 'c'
+    }, {
+      prefix: '@@',
+      suffix: '##'
+    }).should.equal(result);
 
-      var stream = fileIncludePlugin({
-        context: {
-          name: 'c'
-        }
-      });
-      stream.on('data', function(newFile) {
-        should.exist(newFile);
-        should.exist(newFile.contents);
-
-        String(newFile.contents).should.equal(result);
-        done();
-      });
-
-      stream.write(file);
-      stream.end();
-    });
+    done();
   });
 });
