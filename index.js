@@ -1,12 +1,13 @@
 'use strict';
 
-var concat = require('concat-stream'),
-  flatten = require('flatnest').flatten,
-  merge = require('merge').recursive,
-  through = require('through2'),
-  gutil = require('gulp-util'),
-  path = require('path'),
-  fs = require('fs');
+var parseConditional = require('./lib/conditional');
+var flatten = require('flatnest').flatten;
+var merge = require('merge').recursive;
+var concat = require('concat-stream');
+var through = require('through2');
+var gutil = require('gulp-util');
+var path = require('path');
+var fs = require('fs');
 
 module.exports = function(options) {
   var prefix, suffix, basepath, filters, context;
@@ -59,38 +60,13 @@ module.exports = function(options) {
     return content.replace(regex, '');
   }
 
-  function parseConditionalIncludes(content, data) {
-    // parse @@if (something) { include('...') }
-    var regexp = new RegExp(prefix + '[ ]*if.*\\{[^{}]*\\}\\s*' + suffix),
-      matches = regexp.exec(content),
-      included = false;
-
-    if (!data.content) data.content = content;
-
-    while (matches) {
-      var match = matches[0],
-        includeContent = /\{([^{}]*)\}/.exec(match)[1];
-
-      // jshint ignore: start
-      var exp = /if(.*)\{/.exec(match)[1];
-      included = new Function('var context = this; with (context) { return ' + exp + '; }').call(data);
-      // jshint ignore: end
-
-      if (included) {
-        content = content.replace(match, includeContent);
-      } else {
-        content = content.replace(match, '');
-      }
-
-      matches = regexp.exec(content);
-    }
-
-    return content;
-  }
-
   function include(file, text, data) {
     data = merge(true, context, data || {});
     text = stripCommentedIncludes(text);
+    text = parseConditional(text, data, {
+      prefix: prefix,
+      suffix: suffix
+    });
 
     // grab keys & sort by longest keys 1st to iterate in that order
     var variables = flatten(data);
@@ -140,8 +116,6 @@ module.exports = function(options) {
 
       matches = includeRegExp.exec(text);
     }
-
-    text = parseConditionalIncludes(text, data);
 
     file.contents = new Buffer(text);
     return file;
