@@ -1,6 +1,7 @@
 'use strict';
 
 var parseConditional = require('./lib/conditional');
+var setIndent = require('./lib/indent');
 var flatten = require('flatnest').flatten;
 var merge = require('merge').recursive;
 var concat = require('concat-stream');
@@ -10,7 +11,7 @@ var path = require('path');
 var fs = require('fs');
 
 module.exports = function(options) {
-  var prefix, suffix, basepath, filters, context;
+  var prefix, suffix, basepath, filters, context, indent;
 
   if (typeof options === 'object') {
     basepath = options.basepath || '@file';
@@ -18,11 +19,13 @@ module.exports = function(options) {
     suffix = options.suffix || '';
     context = options.context || {};
     filters = options.filters;
+    indent = options.indent !== undefined ? options.indent : false;
   } else {
     prefix = options || '@@';
     suffix = '';
     basepath = '@file';
     context = {};
+    indent = false;
   }
 
   var includeRegExp = new RegExp(prefix + '[ ]*include\\s*\\([^)"\']*["\']([^"\']*)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+[ ]*' + suffix);
@@ -94,6 +97,10 @@ module.exports = function(options) {
       }
 
       var includeContent = fs.readFileSync(includePath, 'utf-8');
+
+      if(indent) {
+        includeContent = setIndent(text, matches.index, includeContent);
+      }
 
       // need to double each `$` to escape it in the `replace` function
       includeContent = includeContent.replace(/\$/gi, '$$$$');

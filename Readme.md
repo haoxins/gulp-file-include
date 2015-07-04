@@ -27,6 +27,7 @@ fileinclude('@@')
   - basepath: `string`, default `@file`, it could be `@root`, `@file`, `your-basepath`
   - filters: `object`, filters of include content
   - context: `object`, context of `if` statement
+  - indent: `boolean`, default `false`
 
 * options.basepath - type: `string`, it could be
   - `@root`, include file relative to the dir where `gulp` running in
