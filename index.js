@@ -3,32 +3,28 @@
 var parseConditional = require('./lib/conditional');
 var setIndent = require('./lib/indent');
 var flatten = require('flatnest').flatten;
-var merge = require('merge').recursive;
+var extend = require('extend');
 var concat = require('concat-stream');
 var through = require('through2');
 var gutil = require('gulp-util');
 var path = require('path');
 var fs = require('fs');
 
-module.exports = function(options) {
-  var prefix, suffix, basepath, filters, context, indent;
-
-  if (typeof options === 'object') {
-    basepath = options.basepath || '@file';
-    prefix = options.prefix || '@@';
-    suffix = options.suffix || '';
-    context = options.context || {};
-    filters = options.filters;
-    indent = options.indent !== undefined ? options.indent : false;
-  } else {
-    prefix = options || '@@';
-    suffix = '';
-    basepath = '@file';
-    context = {};
-    indent = false;
+module.exports = function(opts) {
+  if(typeof opts === 'string') {
+    opts = { prefix: opts };
   }
 
-  var includeRegExp = new RegExp(prefix + '[ ]*include\\s*\\([^)"\']*["\']([^"\']*)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+[ ]*' + suffix);
+  opts = extend({}, {
+    basepath: '@file',
+    prefix: '@@',
+    suffix: '',
+    context: {},
+    filters: false,
+    indent: false
+  }, opts);
+
+  var includeRegExp = new RegExp(opts.prefix + '[ ]*include\\s*\\([^)"\']*["\']([^"\']*)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)+[ ]*' + opts.suffix);
 
   function fileInclude(file, enc, cb) {
     if (file.isNull()) {
@@ -57,19 +53,16 @@ module.exports = function(options) {
   /**
    * utils
    */
-  function stripCommentedIncludes(content) {
+  function stripCommentedIncludes(content, opts) {
     // remove single line html comments that use the format: <!-- @@include() -->
-    var regex = new RegExp('<\!--(.*)' + prefix + '[ ]*include([\\s\\S]*?)[ ]*' + suffix + '-->', 'g');
+    var regex = new RegExp('<\!--(.*)' + opts.prefix + '[ ]*include([\\s\\S]*?)[ ]*' + opts.suffix + '-->', 'g');
     return content.replace(regex, '');
   }
 
   function include(file, text, data) {
-    data = merge(true, context, data || {});
-    text = stripCommentedIncludes(text);
-    text = parseConditional(text, data, {
-      prefix: prefix,
-      suffix: suffix
-    });
+    data = extend({}, opts.context, data || {});
+    text = parseConditional(text, data, opts);
+    text = stripCommentedIncludes(text, opts);
 
     // grab keys & sort by longest keys 1st to iterate in that order
     var variables = flatten(data);
@@ -78,10 +71,10 @@ module.exports = function(options) {
     var key;
     for (; ~i; i -= 1) {
       key = keys[i];
-      text = text.replace(new RegExp(prefix + '[ ]*' + key + '[ ]*' + suffix, 'g'), variables[key]);
+      text = text.replace(new RegExp(opts.prefix + '[ ]*' + key + '[ ]*' + opts.suffix, 'g'), variables[key]);
     }
 
-    var filebase = basepath === '@file' ? path.dirname(file.path) : basepath === '@root' ? process.cwd() : basepath;
+    var filebase = opts.basepath === '@file' ? path.dirname(file.path) : opts.basepath === '@root' ? process.cwd() : opts.basepath;
     var matches = includeRegExp.exec(text);
 
     filebase = path.resolve(process.cwd(), filebase);
@@ -98,7 +91,7 @@ module.exports = function(options) {
 
       var includeContent = fs.readFileSync(includePath, 'utf-8');
 
-      if(indent) {
+      if(opts.indent) {
         includeContent = setIndent(text, matches.index, includeContent);
       }
 
@@ -106,7 +99,7 @@ module.exports = function(options) {
       includeContent = includeContent.replace(/\$/gi, '$$$$');
 
       // apply filters on include content
-      if (typeof filters === 'object') {
+      if (typeof opts.filters === 'object') {
         includeContent = applyFilters(includeContent, match);
       }
 
@@ -137,7 +130,7 @@ module.exports = function(options) {
     // now get the ordered list of filters
     var filterlist = match.split('(').slice(1, -1);
     filterlist = filterlist.map(function(str) {
-      return filters[str.trim()];
+      return opts.filters[str.trim()];
     });
 
     // compose them together into one function
