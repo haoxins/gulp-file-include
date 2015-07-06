@@ -1,8 +1,8 @@
 {
   "name": "gulp-file-include",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "a gulp plugin for file include",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "mocha -R spec -t 200 test/*.js",
     "test-cov": "istanbul cover node_modules/.bin/_mocha -- -R dot -t 200 test/*.js",
@@ -16,6 +16,9 @@
     "replace",
     "gulp",
     "plugin"
+  ],
+  "files": [
+    "lib"
   ],
   "author": "haoxin",
   "contributors": [
