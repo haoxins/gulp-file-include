@@ -10,8 +10,18 @@ describe('## conditional', function() {
     var result = fs.readFileSync('test/fixtures-conditional/result-index.html', 'utf-8');
     var index = fs.readFileSync('test/fixtures-conditional/index.html', 'utf-8');
 
-    parse(index, {
-      name: 'c'
+    parse({
+      handler: function conditionalHandler(args, body) {
+        // jshint ignore: start
+        var condition = new Function('var context = this; with (context) { return ' + args + '; }').call({
+          content: index,
+          name: 'c'
+        });
+        // jshint ignore: end
+        
+        return condition ? body : '';
+      },
+      content: index
     }, {
       prefix: '@@',
       suffix: ''
@@ -24,8 +34,18 @@ describe('## conditional', function() {
     var result = fs.readFileSync('test/fixtures-conditional/result-suffix.html', 'utf-8');
     var index = fs.readFileSync('test/fixtures-conditional/suffix.html', 'utf-8');
 
-    parse(index, {
-      name: 'c'
+    parse({
+      handler: function conditionalHandler(args, body) {
+        // jshint ignore: start
+        var condition = new Function('var context = this; with (context) { return ' + args + '; }').call({
+          content: index,
+          name: 'c'
+        });
+        // jshint ignore: end
+        
+        return condition ? body : '';
+      },
+      content: index
     }, {
       prefix: '@@',
       suffix: '##'
