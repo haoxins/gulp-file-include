@@ -1,6 +1,6 @@
 'use strict';
 
-var replaceVariable = require('../lib/variable');
+var replaceVariable = require('../lib/replace-variable');
 var should = require('should');
 var fs = require('fs');
 
