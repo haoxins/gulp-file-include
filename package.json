@@ -1,6 +1,6 @@
 {
   "name": "gulp-file-include",
-  "version": "0.13.5",
+  "version": "0.13.6",
   "description": "a gulp plugin for file include",
   "main": "lib/index.js",
   "scripts": {
