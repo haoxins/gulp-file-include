@@ -14,14 +14,14 @@ describe('## operator', function() {
       prefix: '@@',
       suffix: '',
       name: 'if',
-      handler: function (inst) {
+      handler: function(inst) {
         // jshint ignore: start
         var condition = new Function('var context = this; with (context) { return ' + inst.args + '; }').call({
           content: index,
           name: 'c'
         });
         // jshint ignore: end
-        
+
         return condition ? inst.body : '';
       }
     }).should.equal(result);
@@ -37,14 +37,14 @@ describe('## operator', function() {
       name: 'if',
       prefix: '@@',
       suffix: '##',
-      handler: function (inst) {
+      handler: function(inst) {
         // jshint ignore: start
         var condition = new Function('var context = this; with (context) { return ' + inst.args + '; }').call({
           content: index,
           name: 'c'
         });
         // jshint ignore: end
-        
+
         return condition ? inst.body : '';
       }
     }).should.equal(result);

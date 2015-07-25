@@ -1,10 +1,10 @@
 'use strict';
 
-var fileIncludePlugin = require('..'),
-  markdown = require('markdown'),
-  gutil = require('gulp-util'),
-  should = require('should'),
-  fs = require('fs');
+var fileIncludePlugin = require('..');
+var markdown = require('markdown');
+var gutil = require('gulp-util');
+var should = require('should');
+var fs = require('fs');
 
 describe('## gulp-file-include', function() {
   var result = fs.readFileSync('test/fixtures/result.html', 'utf8');

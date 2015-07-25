@@ -1,9 +1,9 @@
 'use strict';
 
-var fileIncludePlugin = require('..'),
-  gutil = require('gulp-util'),
-  should = require('should'),
-  fs = require('fs');
+var fileIncludePlugin = require('..');
+var gutil = require('gulp-util');
+var should = require('should');
+var fs = require('fs');
 
 describe('## recursion include', function() {
   var result = fs.readFileSync('test/fixtures-recursion/result.txt', 'utf8');
