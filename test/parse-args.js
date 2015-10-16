@@ -50,8 +50,7 @@ var tests = [{
   message: 'should tokenize parentheses',
   fixture: 'func(arg1, arg2), {}',
   expected: [
-    { type: 'expr', value: 'func' },
-    { type: 'function', nodes: [
+    { type: 'function', name: 'func', nodes: [
       { type: 'expr', value: 'arg1' },
       { type: ',', value: ',' },
       { type: 'space', value: ' ' },
