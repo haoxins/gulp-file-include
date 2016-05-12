@@ -50,6 +50,8 @@ fileinclude({
 
 ### example
 
+* @@include options - type: `JSON`
+
 index.html
 ```html
 <!DOCTYPE html>
