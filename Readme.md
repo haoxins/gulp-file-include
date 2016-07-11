@@ -170,7 +170,7 @@ fileinclude({
 ```js
 fileinclude({
   context: {
-    arr: ['test1',test2']
+    arr: ['test1','test2']
   }
 });
 ```
