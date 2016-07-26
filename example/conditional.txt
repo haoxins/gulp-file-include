@@ -2,7 +2,7 @@ this is conditional
 
 Flatten object "@@obj"
 @@if(typeof context.obj === 'object') {
-Flatten variable "@@obj.obj_param"
+  Flatten variable "@@obj.obj_param"
 }
 Defined in parent "@@param"
 Context variable "@@name"

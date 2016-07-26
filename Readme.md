@@ -177,12 +177,54 @@ fileinclude({
 });
 ```
 
-```
+```html
 <ul>
 @@for (var i = 0; i < arr.length; i++) {
   <li>`+arr[i]+`</li>
 }
 </ul>
+```
+
+### `loop` statement
+
+* index.html
+
+```html
+<body>
+  @@loop('loop-article.html', [
+    { "title": "My post title", "text": "<p>lorem ipsum...</p>" },
+    { "title": "Another post", "text": "<p>lorem ipsum...</p>" },
+    { "title": "One more post", "text": "<p>lorem ipsum...</p>" }
+  ])
+</body>
+```
+
+* loop-article.html
+
+```html
+<article>
+  <h1>@@title</h1>
+  @@text
+</article>
+```
+
+### `loop` statement + data.json
+
+data.json
+
+```js
+[
+  { "title": "My post title", "text": "<p>lorem ipsum...</p>" },
+  { "title": "Another post", "text": "<p>lorem ipsum...</p>" },
+  { "title": "One more post", "text": "<p>lorem ipsum...</p>" }
+]
+```
+
+* loop-article.html
+```html
+<body>
+  @@loop("loop-article.html", "data.json")
+</body>
 ```
 
 ### License
