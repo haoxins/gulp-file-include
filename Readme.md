@@ -168,6 +168,7 @@ fileinclude({
 ```
 
 ### `loop`
+index.html
 
 ```
 @@loop('loop-article.html', [
@@ -178,6 +179,7 @@ fileinclude({
 
 ```
 
+loop-article.html
 ```html
 <article>
 	<h1>@@title</h1>
