@@ -22,14 +22,22 @@ example
 Flatten object "@@obj"
 
 Flatten variable "flatten param"
+
 Defined in parent "success"
 Context variable "example"
 
   this is conditional
 
 Flatten object "@@obj"
+
 Defined in parent "success too"
 Context variable "example"
 
 
   Defined in include @@param
+
+
+this is loop 1
+this is loop 2
+this is loop 3
+

@@ -17,3 +17,9 @@ index
 
   Defined in include @@param
 }
+
+@@loop('c/c.txt', [
+	{ "number": 1 },
+	{ "number": 2 },
+	{ "number": 3 }
+])

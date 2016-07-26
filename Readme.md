@@ -167,6 +167,25 @@ fileinclude({
 }
 ```
 
+### `loop`
+
+```
+@@loop('loop-article.html', [
+	{ "title": "My post title", "text": "<p>lorem ipsum...</p>" },
+	{ "title": "Another post", "text": "<p>lorem ipsum...</p>" },
+	{ "title": "One more post", "text": "<p>lorem ipsum...</p>" }
+])
+
+```
+
+```html
+<article>
+	<h1>@@title</h1>
+	@@text
+</article>
+
+```
+
 ### License
 MIT
 

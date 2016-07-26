@@ -23,7 +23,8 @@
   ],
   "author": "haoxin",
   "contributors": [
-    "Bogdan Chadkin <trysound@yandex.ru>"
+    "Bogdan Chadkin <trysound@yandex.ru>",
+    "Arthur Araújo <webarthur@gmail.com>"
   ],
   "license": "MIT",
   "devDependencies": {
