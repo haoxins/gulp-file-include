@@ -172,9 +172,9 @@ index.html
 
 ```
 @@loop('loop-article.html', [
-	{ "title": "My post title", "text": "<p>lorem ipsum...</p>" },
-	{ "title": "Another post", "text": "<p>lorem ipsum...</p>" },
-	{ "title": "One more post", "text": "<p>lorem ipsum...</p>" }
+  { "title": "My post title", "text": "<p>lorem ipsum...</p>" },
+  { "title": "Another post", "text": "<p>lorem ipsum...</p>" },
+  { "title": "One more post", "text": "<p>lorem ipsum...</p>" }
 ])
 
 ```
@@ -182,8 +182,8 @@ index.html
 loop-article.html
 ```html
 <article>
-	<h1>@@title</h1>
-	@@text
+  <h1>@@title</h1>
+  @@text
 </article>
 
 ```
