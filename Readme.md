@@ -196,7 +196,7 @@ data.json
   { "title": "My post title", "text": "<p>lorem ipsum...</p>" },
   { "title": "Another post", "text": "<p>lorem ipsum...</p>" },
   { "title": "One more post", "text": "<p>lorem ipsum...</p>" }
-])
+]
 
 ```
 
