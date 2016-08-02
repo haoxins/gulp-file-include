@@ -203,7 +203,25 @@ data.json
 loop-article.html
 ```html
 @@loop('loop-article.html', 'data.json')
+```
 
+### `for` statement
+
+```js
+fileinclude({
+  context: {
+    arr: ['test1', 'test2']
+  }
+});
+```
+
+```
+<ul>
+@@for (var i = 0; i < arr.length; i++) {
+  <li>`+arr[i]+`</li>
+}
+</ul>
+>>>>>>> upstream/master
 ```
 
 ### License

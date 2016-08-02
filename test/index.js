@@ -1,3 +1,4 @@
+
 'use strict';
 
 var fileIncludePlugin = require('..');
@@ -9,6 +10,7 @@ describe('## gulp-file-include', function() {
   var result = fs.readFileSync('test/fixtures/result.html', 'utf8');
   var resultJS = fs.readFileSync('test/fixtures/result.js', 'utf8');
   var resultSamePrefix = fs.readFileSync('test/fixtures/sameprefix-result.html', 'utf8');
+  var resultArr = fs.readFileSync('test/fixtures/arr-result.html', 'utf8');
 
   describe('# default', function() {
     it('file', function(done) {
@@ -434,6 +436,46 @@ describe('## gulp-file-include', function() {
         should.exist(newFile);
         should.exist(newFile.contents);
         String(newFile.contents).should.equal(resultJS);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+  });
+
+  describe('# for statement', function() {
+    it('file', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures/index-05.html',
+        contents: fs.readFileSync('test/fixtures/index-05.html')
+      });
+
+      var stream = fileIncludePlugin();
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+
+        String(newFile.contents).should.equal(resultArr);
+        done();
+      });
+
+      stream.write(file);
+      stream.end();
+    });
+
+    it('stream', function(done) {
+      var file = new gutil.File({
+        path: 'test/fixtures/index-05.html',
+        contents: fs.createReadStream('test/fixtures/index-05.html')
+      });
+
+      var stream = fileIncludePlugin();
+      stream.on('data', function(newFile) {
+        should.exist(newFile);
+        should.exist(newFile.contents);
+
+        String(newFile.contents).should.equal(resultArr);
         done();
       });
 
