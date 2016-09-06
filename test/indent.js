@@ -1,6 +1,6 @@
 'use strict';
 
-var setIndent = require('../lib/indent');
+var setIndent = require('../lib/plugins/indent');
 var should = require('should');
 var fs = require('fs');
 

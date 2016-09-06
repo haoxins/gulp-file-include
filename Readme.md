@@ -28,6 +28,7 @@ fileinclude('@@')
   - filters: `object`, filters of include content
   - context: `object`, context of `if` statement
   - indent: `boolean`, default `false`
+  - plugins `array`, default `[]`
 
 * options.basepath - type: `string`, it could be
   - `@root`, include file relative to the dir where `gulp` running in
@@ -183,6 +184,22 @@ fileinclude({
   <li>`+arr[i]+`</li>
 }
 </ul>
+```
+
+### add plugins
+
+gulpfile.js
+```js
+var fileinclude = require('gulp-file-include'),
+  gulp = require('gulp');
+
+gulp.task('fileinclude', function() {
+  gulp.src(['index.html'])
+    .pipe(fileinclude({
+      plugins: ['path/to/plugin', 'node_modules/plugin-name']
+    }))
+    .pipe(gulp.dest('./'));
+});
 ```
 
 ### License
