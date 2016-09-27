@@ -1,15 +1,15 @@
 'use strict';
 
-var fileIncludePlugin = require('..');
-var gutil = require('gulp-util');
-var should = require('should');
-var fs = require('fs');
+const fileIncludePlugin = require('..');
+const gutil = require('gulp-util');
+const should = require('should');
+const fs = require('fs');
 
-describe('## recursion include', function() {
+describe('## recursion include', () => {
   var result = fs.readFileSync('test/fixtures-recursion/result.txt', 'utf8');
 
-  describe('# basepath: @file', function() {
-    it('file', function(done) {
+  describe('# basepath: @file', () => {
+    it('file', done => {
       var file = new gutil.File({
         path: 'test/fixtures-recursion/index.txt',
         contents: fs.readFileSync('test/fixtures-recursion/index.txt')
@@ -18,7 +18,7 @@ describe('## recursion include', function() {
       var stream = fileIncludePlugin({
         basepath: '@file'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -30,7 +30,7 @@ describe('## recursion include', function() {
       stream.end();
     });
 
-    it('stream', function(done) {
+    it('stream', done => {
       var file = new gutil.File({
         path: 'test/fixtures-recursion/index.txt',
         contents: fs.createReadStream('test/fixtures-recursion/index.txt')
@@ -39,7 +39,7 @@ describe('## recursion include', function() {
       var stream = fileIncludePlugin({
         basepath: '@file'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 

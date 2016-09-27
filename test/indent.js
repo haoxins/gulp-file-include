@@ -1,11 +1,11 @@
 'use strict';
 
-var setIndent = require('../lib/indent');
-var should = require('should');
-var fs = require('fs');
+const setIndent = require('../lib/indent');
+const should = require('should');
+const fs = require('fs');
 
-describe('## indent', function() {
-  it('# basic', function(done) {
+describe('## indent', () => {
+  it('# basic', done => {
     setIndent(
       ' content \n\t  start',
       13,
@@ -13,7 +13,7 @@ describe('## indent', function() {
     done();
   });
 
-  it('# basic with \\r\\n newlines', function(done) {
+  it('# basic with \\r\\n newlines', done => {
     setIndent(
       ' content \r\n\t  start',
       14,
@@ -21,7 +21,7 @@ describe('## indent', function() {
     done();
   });
 
-  it('# with non-space char', function(done) {
+  it('# with non-space char', done => {
     setIndent(
       ' content \n\t g start',
       14,
@@ -29,7 +29,7 @@ describe('## indent', function() {
     done();
   });
 
-  it('# with non-space char and \\r\\n newlines', function(done) {
+  it('# with non-space char and \\r\\n newlines', done => {
     setIndent(
       ' content \r\n\t g start',
       15,

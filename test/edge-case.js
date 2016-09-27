@@ -1,13 +1,13 @@
 'use strict';
 
-var fileIncludePlugin = require('..');
-var gutil = require('gulp-util');
-var should = require('should');
-var fs = require('fs');
+const fileIncludePlugin = require('..');
+const gutil = require('gulp-util');
+const should = require('should');
+const fs = require('fs');
 
-describe('## gulp-file-include', function() {
-  describe('# edge cases', function() {
-    it('should escape included content to avoid recursive includes', function(done) {
+describe('## gulp-file-include', () => {
+  describe('# edge cases', () => {
+    it('should escape included content to avoid recursive includes', done => {
       var file = new gutil.File({
         path: 'test/fixtures-edge-case/index.html',
         contents: fs.createReadStream('test/fixtures-edge-case/index.html')
@@ -15,7 +15,7 @@ describe('## gulp-file-include', function() {
       var expected = fs.readFileSync('test/fixtures-edge-case/result.html', 'utf8');
 
       var stream = fileIncludePlugin();
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -27,7 +27,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('should work without trailing newline', function(done) {
+    it('should work without trailing newline', done => {
       var file = new gutil.File({
         path: 'test/fixtures-edge-case/without-trailing-newline.txt',
         contents: fs.createReadStream('test/fixtures-edge-case/without-trailing-newline.txt')
@@ -47,7 +47,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('should skip commented includes', function(done) {
+    it('should skip commented includes', done => {
       var file = new gutil.File({
         path: 'test/fixtures-edge-case/commented-inclusion.html',
         contents: fs.createReadStream('test/fixtures-edge-case/commented-inclusion.html')
@@ -56,7 +56,7 @@ describe('## gulp-file-include', function() {
 
       var stream = fileIncludePlugin();
 
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         var inputString = String(newFile.contents).replace(/\s/g, '');
 
         inputString.should.equal(expected);
@@ -67,7 +67,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('should give an error on recursive includes', function(done) {
+    it('should give an error on recursive includes', done => {
       var file = new gutil.File({
         path: 'test/fixtures-edge-case/recursion.html',
         contents: fs.createReadStream('test/fixtures-edge-case/recursion.html')
@@ -75,7 +75,7 @@ describe('## gulp-file-include', function() {
 
       var stream = fileIncludePlugin();
 
-      stream.on('error', function(err) {
+      stream.on('error', err => {
         should.exist(err);
         done();
       });

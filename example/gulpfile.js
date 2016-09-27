@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-var fileinclude = require('..'),
-  gulp = require('gulp');
+const fileinclude = require('..')
+const gulp = require('gulp')
 
-gulp.task('include', function() {
+gulp.task('include', () => {
   gulp.src(['index.txt'])
     .pipe(fileinclude({
       prefix: '@@',
@@ -12,5 +12,5 @@ gulp.task('include', function() {
         name: 'example'
       }
     }))
-    .pipe(gulp.dest('./result'));
-});
+    .pipe(gulp.dest('./result'))
+})

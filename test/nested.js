@@ -1,22 +1,22 @@
 'use strict';
 
-var fileIncludePlugin = require('..');
-var gutil = require('gulp-util');
-var should = require('should');
-var fs = require('fs');
+const fileIncludePlugin = require('..');
+const gutil = require('gulp-util');
+const should = require('should');
+const fs = require('fs');
 
-describe('## gulp-file-include', function() {
+describe('## gulp-file-include', () => {
   var result = fs.readFileSync('test/fixtures-nested/result.html', 'utf8');
 
-  describe('# nested arguments', function() {
-    it('file', function(done) {
+  describe('# nested arguments', () => {
+    it('file', done => {
       var file = new gutil.File({
         path: 'test/fixtures-nested/index.html',
         contents: fs.readFileSync('test/fixtures-nested/index.html')
       });
 
       var stream = fileIncludePlugin();
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -28,14 +28,14 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream', function(done) {
+    it('stream', done => {
       var file = new gutil.File({
         path: 'test/fixtures-nested/index.html',
         contents: fs.createReadStream('test/fixtures-nested/index.html')
       });
 
       var stream = fileIncludePlugin();
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 

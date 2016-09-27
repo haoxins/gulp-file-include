@@ -1,13 +1,13 @@
 'use strict';
 
-var replaceVariable = require('../lib/replace-variable');
-var should = require('should');
-var fs = require('fs');
+const replaceVariable = require('../lib/replace-variable');
+const should = require('should');
+const fs = require('fs');
 
-describe('## variable', function() {
+describe('## variable', () => {
   var result = fs.readFileSync('test/fixtures-variable/result.html', 'utf-8');
 
-  it('# basic', function(done) {
+  it('# basic', done => {
     var index = fs.readFileSync('test/fixtures-variable/index.html', 'utf-8');
 
     replaceVariable(index, {
@@ -24,7 +24,7 @@ describe('## variable', function() {
     done();
   });
 
-  it('# with suffix', function(done) {
+  it('# with suffix', done => {
     var index = fs.readFileSync('test/fixtures-variable/index-suffix.html', 'utf-8');
 
     replaceVariable(index, {

@@ -1,26 +1,26 @@
 
 'use strict';
 
-var fileIncludePlugin = require('..');
-var gutil = require('gulp-util');
-var should = require('should');
-var fs = require('fs');
+const fileIncludePlugin = require('..');
+const gutil = require('gulp-util');
+const should = require('should');
+const fs = require('fs');
 
-describe('## gulp-file-include', function() {
+describe('## gulp-file-include', () => {
   var result = fs.readFileSync('test/fixtures/result.html', 'utf8');
   var resultJS = fs.readFileSync('test/fixtures/result.js', 'utf8');
   var resultSamePrefix = fs.readFileSync('test/fixtures/sameprefix-result.html', 'utf8');
   var resultArr = fs.readFileSync('test/fixtures/arr-result.html', 'utf8');
 
-  describe('# default', function() {
-    it('file', function(done) {
+  describe('# default', () => {
+    it('file', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.readFileSync('test/fixtures/index-01.html')
       });
 
       var stream = fileIncludePlugin();
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -32,14 +32,14 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream', function(done) {
+    it('stream', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.createReadStream('test/fixtures/index-01.html')
       });
 
       var stream = fileIncludePlugin();
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -52,8 +52,8 @@ describe('## gulp-file-include', function() {
     });
   });
 
-  describe('# options - basepath', function() {
-    it('file - basepath: @file', function(done) {
+  describe('# options - basepath', () => {
+    it('file - basepath: @file', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.readFileSync('test/fixtures/index-01.html')
@@ -62,7 +62,7 @@ describe('## gulp-file-include', function() {
       var stream = fileIncludePlugin({
         basepath: '@file'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -74,7 +74,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream - basepath: @file', function(done) {
+    it('stream - basepath: @file', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.createReadStream('test/fixtures/index-01.html')
@@ -83,7 +83,7 @@ describe('## gulp-file-include', function() {
       var stream = fileIncludePlugin({
         basepath: '@file'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -95,7 +95,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('file - basepath: @root', function(done) {
+    it('file - basepath: @root', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-03.html',
         contents: fs.readFileSync('test/fixtures/index-03.html')
@@ -104,7 +104,7 @@ describe('## gulp-file-include', function() {
       var stream = fileIncludePlugin({
         basepath: '@root'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -116,7 +116,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream - basepath: @root', function(done) {
+    it('stream - basepath: @root', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-03.html',
         contents: fs.createReadStream('test/fixtures/index-03.html')
@@ -125,7 +125,7 @@ describe('## gulp-file-include', function() {
       var stream = fileIncludePlugin({
         basepath: '@root'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -137,7 +137,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('file - basepath: dir', function(done) {
+    it('file - basepath: dir', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-02.html',
         contents: fs.readFileSync('test/fixtures/index-02.html')
@@ -146,7 +146,7 @@ describe('## gulp-file-include', function() {
       var stream = fileIncludePlugin({
         basepath: __dirname
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -158,7 +158,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream - basepath: dir', function(done) {
+    it('stream - basepath: dir', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-02.html',
         contents: fs.createReadStream('test/fixtures/index-02.html')
@@ -167,7 +167,7 @@ describe('## gulp-file-include', function() {
       var stream = fileIncludePlugin({
         basepath: __dirname
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -180,8 +180,8 @@ describe('## gulp-file-include', function() {
     });
   });
 
-  describe('# options - prefix, basepath', function() {
-    it('file - basepath: @file', function(done) {
+  describe('# options - prefix, basepath', () => {
+    it('file - basepath: @file', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.readFileSync('test/fixtures/index-01.html')
@@ -191,7 +191,7 @@ describe('## gulp-file-include', function() {
         prefix: '@@',
         basepath: '@file'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -203,7 +203,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream - basepath: @file', function(done) {
+    it('stream - basepath: @file', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-01.html',
         contents: fs.createReadStream('test/fixtures/index-01.html')
@@ -213,7 +213,7 @@ describe('## gulp-file-include', function() {
         prefix: '@@',
         basepath: '@file'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -225,7 +225,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('file - basepath: @root', function(done) {
+    it('file - basepath: @root', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-03.html',
         contents: fs.readFileSync('test/fixtures/index-03.html')
@@ -235,7 +235,7 @@ describe('## gulp-file-include', function() {
         prefix: '@@',
         basepath: '@root'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -247,7 +247,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream - basepath: @root', function(done) {
+    it('stream - basepath: @root', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-03.html',
         contents: fs.createReadStream('test/fixtures/index-03.html')
@@ -257,7 +257,7 @@ describe('## gulp-file-include', function() {
         prefix: '@@',
         basepath: '@root'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -269,7 +269,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('file - basepath: dir', function(done) {
+    it('file - basepath: dir', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-02.html',
         contents: fs.readFileSync('test/fixtures/index-02.html')
@@ -279,7 +279,7 @@ describe('## gulp-file-include', function() {
         prefix: '@@',
         basepath: __dirname
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -291,7 +291,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream - basepath: dir', function(done) {
+    it('stream - basepath: dir', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-02.html',
         contents: fs.createReadStream('test/fixtures/index-02.html')
@@ -301,7 +301,7 @@ describe('## gulp-file-include', function() {
         prefix: '@@',
         basepath: __dirname
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -314,8 +314,8 @@ describe('## gulp-file-include', function() {
     });
   });
 
-  describe('# options - suffix', function() {
-    it('file', function(done) {
+  describe('# options - suffix', () => {
+    it('file', done => {
       var file = new gutil.File({
         path: 'test/fixtures-suffix/index.html',
         contents: fs.readFileSync('test/fixtures-suffix/index.html')
@@ -324,7 +324,7 @@ describe('## gulp-file-include', function() {
       var stream = fileIncludePlugin({
         suffix: '@@'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
         // TODO
@@ -337,7 +337,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream', function(done) {
+    it('stream', done => {
       var file = new gutil.File({
         path: 'test/fixtures-suffix/index.html',
         contents: fs.createReadStream('test/fixtures-suffix/index.html')
@@ -346,7 +346,7 @@ describe('## gulp-file-include', function() {
       var stream = fileIncludePlugin({
         suffix: '@@'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
         // TODO
@@ -360,15 +360,15 @@ describe('## gulp-file-include', function() {
     });
   });
 
-  describe('# vars - same key prefix', function() {
-    it('file', function(done) {
+  describe('# vars - same key prefix', () => {
+    it('file', done => {
       var file = new gutil.File({
         path: 'test/fixtures/sameprefix.html',
         contents: fs.readFileSync('test/fixtures/sameprefix.html')
       });
 
       var stream = fileIncludePlugin();
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -380,14 +380,14 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream', function(done) {
+    it('stream', done => {
       var file = new gutil.File({
         path: 'test/fixtures/sameprefix.html',
         contents: fs.createReadStream('test/fixtures/sameprefix.html')
       });
 
       var stream = fileIncludePlugin();
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -400,8 +400,8 @@ describe('## gulp-file-include', function() {
     });
   });
 
-  describe('# aggressive regex', function() {
-    it('file - basepath: @root', function(done) {
+  describe('# aggressive regex', () => {
+    it('file - basepath: @root', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-04.js',
         contents: fs.readFileSync('test/fixtures/index-04.js')
@@ -411,7 +411,7 @@ describe('## gulp-file-include', function() {
         prefix: '@@',
         basepath: '@root'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
         String(newFile.contents).should.equal(resultJS);
@@ -422,7 +422,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream - basepath: @root', function(done) {
+    it('stream - basepath: @root', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-04.js',
         contents: fs.createReadStream('test/fixtures/index-04.js')
@@ -432,7 +432,7 @@ describe('## gulp-file-include', function() {
         prefix: '@@',
         basepath: '@root'
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
         String(newFile.contents).should.equal(resultJS);
@@ -444,15 +444,15 @@ describe('## gulp-file-include', function() {
     });
   });
 
-  describe('# for statement', function() {
-    it('file', function(done) {
+  describe('# for statement', () => {
+    it('file', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-05.html',
         contents: fs.readFileSync('test/fixtures/index-05.html')
       });
 
       var stream = fileIncludePlugin();
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -464,14 +464,14 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream', function(done) {
+    it('stream', done => {
       var file = new gutil.File({
         path: 'test/fixtures/index-05.html',
         contents: fs.createReadStream('test/fixtures/index-05.html')
       });
 
       var stream = fileIncludePlugin();
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 

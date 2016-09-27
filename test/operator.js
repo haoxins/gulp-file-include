@@ -1,12 +1,12 @@
 'use strict';
 
-var parse = require('../lib/replace-operator');
-var should = require('should');
-var fs = require('fs');
+const parse = require('../lib/replace-operator');
+const should = require('should');
+const fs = require('fs');
 
-describe('## operator', function() {
+describe('## operator', () => {
 
-  it('# basic usage', function(done) {
+  it('# basic usage', done => {
     var result = fs.readFileSync('test/fixtures-operator/result-index.html', 'utf-8');
     var index = fs.readFileSync('test/fixtures-operator/index.html', 'utf-8');
 
@@ -14,7 +14,7 @@ describe('## operator', function() {
       prefix: '@@',
       suffix: '',
       name: 'if',
-      handler: function(inst) {
+      handler: inst => {
         // jshint ignore: start
         var condition = new Function('var context = this; with (context) { return ' + inst.args + '; }').call({
           content: index,
@@ -29,7 +29,7 @@ describe('## operator', function() {
     done();
   });
 
-  it('# with suffix', function(done) {
+  it('# with suffix', done => {
     var result = fs.readFileSync('test/fixtures-operator/result-suffix.html', 'utf-8');
     var index = fs.readFileSync('test/fixtures-operator/suffix.html', 'utf-8');
 
@@ -37,7 +37,7 @@ describe('## operator', function() {
       name: 'if',
       prefix: '@@',
       suffix: '##',
-      handler: function(inst) {
+      handler: inst => {
         // jshint ignore: start
         var condition = new Function('var context = this; with (context) { return ' + inst.args + '; }').call({
           content: index,

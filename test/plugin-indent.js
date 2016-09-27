@@ -1,15 +1,15 @@
 'use strict';
 
-var fileIncludePlugin = require('..');
-var gutil = require('gulp-util');
-var should = require('should');
-var fs = require('fs');
+const fileIncludePlugin = require('..');
+const gutil = require('gulp-util');
+const should = require('should');
+const fs = require('fs');
 
-describe('## gulp-file-include', function() {
+describe('## gulp-file-include', () => {
   var result = fs.readFileSync('test/fixtures-indent/result.html', 'utf-8');
 
-  describe('# indent', function() {
-    it('file', function(done) {
+  describe('# indent', () => {
+    it('file', done => {
       var file = new gutil.File({
         path: 'test/fixtures-indent/index.html',
         contents: fs.readFileSync('test/fixtures-indent/index.html')
@@ -19,7 +19,7 @@ describe('## gulp-file-include', function() {
         prefix: '//=',
         indent: true
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
@@ -31,7 +31,7 @@ describe('## gulp-file-include', function() {
       stream.end();
     });
 
-    it('stream', function(done) {
+    it('stream', done => {
       var file = new gutil.File({
         path: 'test/fixtures-indent/index.html',
         contents: fs.createReadStream('test/fixtures-indent/index.html')
@@ -41,7 +41,7 @@ describe('## gulp-file-include', function() {
         prefix: '//=',
         indent: true
       });
-      stream.on('data', function(newFile) {
+      stream.on('data', newFile => {
         should.exist(newFile);
         should.exist(newFile.contents);
 
