@@ -1,6 +1,6 @@
 {
   "name": "gulp-file-include",
-  "version": "0.14.0",
+  "version": "1.0.0",
   "description": "a gulp plugin for file include",
   "main": "lib/index.js",
   "scripts": {
@@ -31,15 +31,15 @@
     "gulp": "3",
     "istanbul": "0",
     "markdown": "0",
-    "mocha": "2",
-    "should": "7"
+    "mocha": "3",
+    "should": "11"
   },
   "dependencies": {
-    "balanced-match": "^0.2.1",
-    "concat-stream": "^1.5.1",
+    "balanced-match": "^0.4.2",
+    "concat-stream": "^1.5.2",
     "extend": "^3.0.0",
     "flatnest": "^1.0.0",
     "gulp-util": "^3.0.7",
-    "through2": "^2.0.0"
+    "through2": "^2.0.1"
   }
 }
