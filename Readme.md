@@ -30,9 +30,9 @@ fileinclude('@@')
   - indent: `boolean`, default `false`
   - getPath: `function`, default: `null`, a optional callback to modify the include path
 
-        function (path) {
-            return path.replace('__LANG__', 'de');
-        }
+          function (path) {
+              return path.replace('__LANG__', 'de');
+          }
 
 * options.basepath - type: `string`, it could be
   - `@root`, include file relative to the dir where `gulp` running in
