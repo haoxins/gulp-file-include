@@ -36,10 +36,10 @@
   },
   "dependencies": {
     "balanced-match": "^0.4.2",
-    "concat-stream": "^1.5.2",
+    "concat-stream": "^1.6.0",
     "extend": "^3.0.0",
     "flatnest": "^1.0.0",
-    "gulp-util": "^3.0.7",
-    "through2": "^2.0.1"
+    "gulp-util": "^3.0.8",
+    "through2": "^2.0.3"
   }
 }
