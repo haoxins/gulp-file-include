@@ -227,6 +227,45 @@ data.json
 </body>
 ```
 
+### `webRoot` built-in context variable
+
+The `webRoot` field of the context contains the relative path from the source document to
+the source root (unless the value is already set in the context options).
+
+### example
+
+support/contact/index.html
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type=stylesheet src=@@webRoot/css/style.css>
+  </head>
+  <body>
+    <h1>Support Contact Info</h1>
+    <footer><a href=@@webRoot>Home</a></footer>
+  </body>
+  </body>
+</html>
+```
+
+and the result is:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type=stylesheet src=../../css/style.css>
+  </head>
+  <body>
+    <h1>Support Contact Info</h1>
+    <footer><a href=../..>Home</a></footer>
+  </body>
+  </body>
+</html>
+```
+
 ### License
 MIT
 
