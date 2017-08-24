@@ -28,16 +28,16 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "gulp": "3",
-    "istanbul": "0",
-    "markdown": "0",
-    "mocha": "3",
-    "should": "11"
+    "gulp": "^3.9.1",
+    "istanbul": "^0.4.5",
+    "markdown": "^0.5.0",
+    "mocha": "^3.5.0",
+    "should": "^11.2.1"
   },
   "dependencies": {
-    "balanced-match": "^0.4.2",
+    "balanced-match": "^1.0.0",
     "concat-stream": "^1.6.0",
-    "extend": "^3.0.0",
+    "extend": "^3.0.1",
     "flatnest": "^1.0.0",
     "gulp-util": "^3.0.8",
     "through2": "^2.0.3"
