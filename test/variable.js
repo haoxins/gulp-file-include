@@ -1,14 +1,15 @@
-'use strict';
+'use strict'
 
-const replaceVariable = require('../lib/replace-variable');
-const should = require('should');
-const fs = require('fs');
+const replaceVariable = require('../lib/replace-variable')
+const fs = require('fs')
+
+require('should')
 
 describe('## variable', () => {
-  var result = fs.readFileSync('test/fixtures-variable/result.html', 'utf-8');
+  var result = fs.readFileSync('test/fixtures-variable/result.html', 'utf-8')
 
   it('# basic', done => {
-    var index = fs.readFileSync('test/fixtures-variable/index.html', 'utf-8');
+    var index = fs.readFileSync('test/fixtures-variable/index.html', 'utf-8')
 
     replaceVariable(index, {
       param1: 'value1',
@@ -19,13 +20,13 @@ describe('## variable', () => {
       param2: 'value2'
     }, {
       prefix: '//='
-    }).should.equal(result);
+    }).should.equal(result)
 
-    done();
-  });
+    done()
+  })
 
   it('# with suffix', done => {
-    var index = fs.readFileSync('test/fixtures-variable/index-suffix.html', 'utf-8');
+    var index = fs.readFileSync('test/fixtures-variable/index-suffix.html', 'utf-8')
 
     replaceVariable(index, {
       param1: 'value1',
@@ -37,8 +38,8 @@ describe('## variable', () => {
     }, {
       prefix: '//=',
       suffix: '@@'
-    }).should.equal(result);
+    }).should.equal(result)
 
-    done();
-  });
-});
+    done()
+  })
+})
