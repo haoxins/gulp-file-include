@@ -1,10 +1,10 @@
 {
   "name": "gulp-file-include",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "a gulp plugin for file include",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint . --fix",
+    "lint": "eslint lib test/*.js --fix",
     "test": "mocha -R spec -t 200 test/*.js",
     "test-cov": "istanbul cover node_modules/.bin/_mocha -- -R dot -t 200 test/*.js",
     "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 200 test/*.js"
