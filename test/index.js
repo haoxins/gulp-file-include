@@ -483,4 +483,48 @@ describe('## gulp-file-include', () => {
       stream.end()
     })
   })
+
+  describe('# include external json file', () => {
+    it('file - basepath: dir', done => {
+      var file = new gutil.File({
+        path: 'test/fixtures/index-06.html',
+        contents: fs.readFileSync('test/fixtures/index-06.html')
+      })
+
+      var stream = fileIncludePlugin({
+        basepath: __dirname
+      })
+      stream.on('data', newFile => {
+        should.exist(newFile)
+        should.exist(newFile.contents)
+
+        String(newFile.contents).should.equal(result)
+        done()
+      })
+
+      stream.write(file)
+      stream.end()
+    })
+
+    it('stream - basepath: dir', done => {
+      var file = new gutil.File({
+        path: 'test/fixtures/index-06.html',
+        contents: fs.createReadStream('test/fixtures/index-06.html')
+      })
+
+      var stream = fileIncludePlugin({
+        basepath: __dirname
+      })
+      stream.on('data', newFile => {
+        should.exist(newFile)
+        should.exist(newFile.contents)
+
+        String(newFile.contents).should.equal(result)
+        done()
+      })
+
+      stream.write(file)
+      stream.end()
+    })
+  })
 })
