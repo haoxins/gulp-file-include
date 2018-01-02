@@ -6,7 +6,7 @@ const gutil = require('gulp-util')
 const should = require('should')
 const fs = require('fs')
 
-describe('## gulp-file-include', () => {
+describe('## gulp-file-include with external json', () => {
   var result = fs.readFileSync('test/fixtures/result.html', 'utf8')
   var resultJS = fs.readFileSync('test/fixtures/result.js', 'utf8')
   var resultSamePrefix = fs.readFileSync('test/fixtures/sameprefix-result.html', 'utf8')
