@@ -2,7 +2,7 @@
 'use strict'
 
 const fileIncludePlugin = require('..')
-const gutil = require('gulp-util')
+const Vinyl = require('vinyl')
 const should = require('should')
 const fs = require('fs')
 
@@ -14,7 +14,7 @@ describe('## gulp-file-include', () => {
 
   describe('# default', () => {
     it('file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-01.html',
         contents: fs.readFileSync('test/fixtures/index-01.html')
       })
@@ -33,7 +33,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-01.html',
         contents: fs.createReadStream('test/fixtures/index-01.html')
       })
@@ -54,7 +54,7 @@ describe('## gulp-file-include', () => {
 
   describe('# options - basepath', () => {
     it('file - basepath: @file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-01.html',
         contents: fs.readFileSync('test/fixtures/index-01.html')
       })
@@ -75,7 +75,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream - basepath: @file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-01.html',
         contents: fs.createReadStream('test/fixtures/index-01.html')
       })
@@ -96,7 +96,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('file - basepath: @root', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-03.html',
         contents: fs.readFileSync('test/fixtures/index-03.html')
       })
@@ -117,7 +117,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream - basepath: @root', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-03.html',
         contents: fs.createReadStream('test/fixtures/index-03.html')
       })
@@ -138,7 +138,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('file - basepath: dir', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-02.html',
         contents: fs.readFileSync('test/fixtures/index-02.html')
       })
@@ -159,7 +159,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream - basepath: dir', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-02.html',
         contents: fs.createReadStream('test/fixtures/index-02.html')
       })
@@ -182,7 +182,7 @@ describe('## gulp-file-include', () => {
 
   describe('# options - prefix, basepath', () => {
     it('file - basepath: @file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-01.html',
         contents: fs.readFileSync('test/fixtures/index-01.html')
       })
@@ -204,7 +204,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream - basepath: @file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-01.html',
         contents: fs.createReadStream('test/fixtures/index-01.html')
       })
@@ -226,7 +226,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('file - basepath: @root', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-03.html',
         contents: fs.readFileSync('test/fixtures/index-03.html')
       })
@@ -248,7 +248,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream - basepath: @root', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-03.html',
         contents: fs.createReadStream('test/fixtures/index-03.html')
       })
@@ -270,7 +270,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('file - basepath: dir', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-02.html',
         contents: fs.readFileSync('test/fixtures/index-02.html')
       })
@@ -292,7 +292,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream - basepath: dir', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-02.html',
         contents: fs.createReadStream('test/fixtures/index-02.html')
       })
@@ -316,7 +316,7 @@ describe('## gulp-file-include', () => {
 
   describe('# options - suffix', () => {
     it('file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-suffix/index.html',
         contents: fs.readFileSync('test/fixtures-suffix/index.html')
       })
@@ -338,7 +338,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-suffix/index.html',
         contents: fs.createReadStream('test/fixtures-suffix/index.html')
       })
@@ -362,7 +362,7 @@ describe('## gulp-file-include', () => {
 
   describe('# vars - same key prefix', () => {
     it('file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/sameprefix.html',
         contents: fs.readFileSync('test/fixtures/sameprefix.html')
       })
@@ -381,7 +381,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/sameprefix.html',
         contents: fs.createReadStream('test/fixtures/sameprefix.html')
       })
@@ -402,7 +402,7 @@ describe('## gulp-file-include', () => {
 
   describe('# aggressive regex', () => {
     it('file - basepath: @root', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-04.js',
         contents: fs.readFileSync('test/fixtures/index-04.js')
       })
@@ -423,7 +423,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream - basepath: @root', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-04.js',
         contents: fs.createReadStream('test/fixtures/index-04.js')
       })
@@ -446,7 +446,7 @@ describe('## gulp-file-include', () => {
 
   describe('# for statement', () => {
     it('file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-05.html',
         contents: fs.readFileSync('test/fixtures/index-05.html')
       })
@@ -465,7 +465,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-05.html',
         contents: fs.createReadStream('test/fixtures/index-05.html')
       })

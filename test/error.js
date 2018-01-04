@@ -1,14 +1,14 @@
 'use strict'
 
 const fileIncludePlugin = require('..')
-const gutil = require('gulp-util')
+const Vinyl = require('vinyl')
 const fs = require('fs')
 
 require('should')
 
 describe('## error', () => {
   it('# if statement', done => {
-    var file = new gutil.File({
+    var file = new Vinyl({
       path: 'test/fixtures-error/if.html',
       contents: fs.readFileSync('test/fixtures-error/if.html')
     })
@@ -26,7 +26,7 @@ describe('## error', () => {
   })
 
   it('# for statement', done => {
-    var file = new gutil.File({
+    var file = new Vinyl({
       path: 'test/fixtures-error/if.html',
       contents: fs.readFileSync('test/fixtures-error/for.html')
     })

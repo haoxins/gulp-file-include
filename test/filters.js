@@ -2,7 +2,7 @@
 
 const fileIncludePlugin = require('..')
 const markdown = require('markdown')
-const gutil = require('gulp-util')
+const Vinyl = require('vinyl')
 const should = require('should')
 const fs = require('fs')
 
@@ -11,7 +11,7 @@ describe('## gulp-file-include', () => {
 
   describe('# options - filters', () => {
     it('file - filters: markdown', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-markdown.html',
         contents: fs.readFileSync('test/fixtures/index-markdown.html')
       })
@@ -35,7 +35,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream - filters: markdown', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-markdown.html',
         contents: fs.createReadStream('test/fixtures/index-markdown.html')
       })
@@ -59,7 +59,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('file - filters: markdown & rot13', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-markdown-rot13.html',
         contents: fs.readFileSync('test/fixtures/index-markdown-rot13.html')
       })
@@ -84,7 +84,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream - filters: markdown & rot13', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-markdown-rot13.html',
         contents: fs.createReadStream('test/fixtures/index-markdown-rot13.html')
       })
@@ -109,7 +109,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('file - filters: custom filter handler options', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures/index-handler-options.html',
         contents: fs.createReadStream('test/fixtures/index-handler-options.html')
       })

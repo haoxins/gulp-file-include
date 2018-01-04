@@ -40,8 +40,9 @@
     "concat-stream": "^1.6.0",
     "extend": "^3.0.1",
     "flatnest": "^1.0.0",
-    "gulp-util": "^3.0.8",
-    "through2": "^2.0.3"
+    "plugin-error": "^0.1.2",
+    "through2": "^2.0.3",
+    "vinyl": "^2.1.0"
   },
   "eslintConfig": {
     "extends": [
