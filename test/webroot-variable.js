@@ -1,7 +1,7 @@
 'use strict'
 
 const fileIncludePlugin = require('..')
-const gutil = require('gulp-util')
+const Vinyl = require('vinyl')
 const should = require('should')
 const fs = require('fs')
 
@@ -9,7 +9,7 @@ describe('## built-in webRoot variable', () => {
   it('# regular usage and includes', done => {
     var result = fs.readFileSync('test/fixtures-webroot-variable/result.html', 'utf8')
     var path = 'test/fixtures-webroot-variable/index.html'
-    var file = new gutil.File({ path: path, contents: fs.createReadStream(path) })
+    var file = new Vinyl({ path: path, contents: fs.createReadStream(path) })
 
     var stream = fileIncludePlugin()
     stream.on('data', newFile => {
@@ -27,7 +27,7 @@ describe('## built-in webRoot variable', () => {
   it('# nested folder', done => {
     var result = fs.readFileSync('test/fixtures-webroot-variable/sub/result.html', 'utf8')
     var path = 'test/fixtures-webroot-variable/sub/index.html'
-    var file = new gutil.File({ path: path, contents: fs.createReadStream(path) })
+    var file = new Vinyl({ path: path, contents: fs.createReadStream(path) })
 
     var stream = fileIncludePlugin()
     stream.on('data', newFile => {

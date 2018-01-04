@@ -1,7 +1,7 @@
 'use strict'
 
 const fileIncludePlugin = require('..')
-const gutil = require('gulp-util')
+const Vinyl = require('vinyl')
 const should = require('should')
 const fs = require('fs')
 
@@ -10,7 +10,7 @@ describe('## recursion include', () => {
 
   describe('# basepath: @file', () => {
     it('file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-recursion/index.txt',
         contents: fs.readFileSync('test/fixtures-recursion/index.txt')
       })
@@ -31,7 +31,7 @@ describe('## recursion include', () => {
     })
 
     it('stream', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-recursion/index.txt',
         contents: fs.createReadStream('test/fixtures-recursion/index.txt')
       })

@@ -1,14 +1,14 @@
 'use strict'
 
 const fileIncludePlugin = require('..')
-const gutil = require('gulp-util')
+const Vinyl = require('vinyl')
 const should = require('should')
 const fs = require('fs')
 
 describe('## gulp-file-include', () => {
   describe('# edge cases', () => {
     it('should escape included content to avoid recursive includes', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-edge-case/index.html',
         contents: fs.createReadStream('test/fixtures-edge-case/index.html')
       })
@@ -28,7 +28,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('should work without trailing newline', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-edge-case/without-trailing-newline.txt',
         contents: fs.createReadStream('test/fixtures-edge-case/without-trailing-newline.txt')
       })
@@ -48,7 +48,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('should skip commented includes', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-edge-case/commented-inclusion.html',
         contents: fs.createReadStream('test/fixtures-edge-case/commented-inclusion.html')
       })
@@ -68,7 +68,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('should give an error on recursive includes', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-edge-case/recursion.html',
         contents: fs.createReadStream('test/fixtures-edge-case/recursion.html')
       })
@@ -85,7 +85,7 @@ describe('## gulp-file-include', () => {
     })
 
     // it('should give an error on circular recursive includes', function(done) {
-    //   var file = new gutil.File({
+    //   var file = new Vinyl({
     //     path: 'test/fixtures-edge-case/a.html',
     //     contents: fs.createReadStream('test/fixtures-edge-case/a.html')
     //   });

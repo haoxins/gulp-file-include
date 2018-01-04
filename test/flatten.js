@@ -1,7 +1,7 @@
 'use strict'
 
 const fileIncludePlugin = require('..')
-const gutil = require('gulp-util')
+const Vinyl = require('vinyl')
 const should = require('should')
 const fs = require('fs')
 
@@ -10,7 +10,7 @@ describe('## gulp-file-include', () => {
 
   describe('# flatten variables', () => {
     it('file', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-flatten/index.html',
         contents: fs.readFileSync('test/fixtures-flatten/index.html')
       })
@@ -36,7 +36,7 @@ describe('## gulp-file-include', () => {
     })
 
     it('stream', done => {
-      var file = new gutil.File({
+      var file = new Vinyl({
         path: 'test/fixtures-flatten/index.html',
         contents: fs.createReadStream('test/fixtures-flatten/index.html')
       })
