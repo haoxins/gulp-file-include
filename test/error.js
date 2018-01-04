@@ -3,6 +3,7 @@
 const fileIncludePlugin = require('..')
 const Vinyl = require('vinyl')
 const fs = require('fs')
+const os = require('os')
 
 require('should')
 
@@ -36,7 +37,7 @@ describe('## error', () => {
       basepath: '@root'
     })
     stream.on('error', error => {
-      error.message.should.equal('invalid is not defined: for (var i = 0; i < invalid.length; i++)  { result+=`\n  <label>`+invalid[i]+`</label>\n  `; }')
+      error.message.should.equal('invalid is not defined: for (var i = 0; i < invalid.length; i++)  { result+=`' + os.EOL + '  <label>`+invalid[i]+`</label>' + os.EOL + '  `; }')
       done()
     })
     stream.write(file)
