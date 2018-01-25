@@ -207,6 +207,40 @@ fileinclude({
   @@text
 </article>
 ```
+### `loop` statement + contextData
+
+* index.html
+
+```html
+<body>
+  @@include('middle-loop.html', {
+    parentloopData:[
+      { "title": "My post title", "text": "<p>lorem ipsum...</p>" },
+      { "title": "Another post", "text": "<p>lorem ipsum...</p>" },
+      { "title": "One more post", "text": "<p>lorem ipsum...</p>" }
+    ]
+  })
+</body>
+```
+* middle-loop.html
+
+```html
+<otherComp>
+  Some thing else!
+</otherComp>
+<loopComp>
+  @@loop('loop-article.html', parentloopData)
+</loopComp>
+```
+
+* loop-article.html
+
+```html
+<article>
+  <h1>@@title</h1>
+  @@text
+</article>
+```
 
 ### `loop` statement + data.json
 
