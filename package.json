@@ -42,6 +42,7 @@
     "flatnest": "^1.0.0",
     "plugin-error": "^0.1.2",
     "through2": "^2.0.3",
+    "lodash": "^4.17.4",
     "vinyl": "^2.1.0"
   },
   "eslintConfig": {
