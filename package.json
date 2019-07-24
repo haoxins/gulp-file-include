@@ -29,20 +29,20 @@
   "license": "MIT",
   "devDependencies": {
     "eslint-config-ok": "github:haoxins/eslint-config",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "istanbul": "^0.4.5",
     "markdown": "^0.5.0",
-    "mocha": "^3.5.0",
-    "should": "^11.2.1"
+    "mocha": "^6.2.0",
+    "should": "^13.2.3"
   },
   "dependencies": {
     "balanced-match": "^1.0.0",
-    "concat-stream": "^1.6.0",
-    "extend": "^3.0.1",
+    "concat-stream": "^2.0.0",
+    "extend": "^3.0.2",
     "flatnest": "^1.0.0",
-    "plugin-error": "^0.1.2",
-    "through2": "^2.0.3",
-    "vinyl": "^2.1.0"
+    "plugin-error": "^1.0.1",
+    "through2": "^3.0.1",
+    "vinyl": "^2.2.0"
   },
   "eslintConfig": {
     "extends": [
