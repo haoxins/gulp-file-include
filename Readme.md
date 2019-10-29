@@ -5,52 +5,76 @@
 [![Dependency status][david-img]][david-url]
 [![Gitter][gitter-img]][gitter-url]
 
-### gulp-file-include
-a plugin of gulp for file include
+# gulp-file-include
+a [gulp](https://github.com/gulpjs/gulp) plugin for file includes
 
-### install
+## Installation
+
 ```bash
-npm install gulp-file-include
+npm install --save-dev gulp-file-include
 ```
 
-### options
-
-* options - type: `string`, just as prefix, default `@@`, and basepath is default `@file`
+## API
 
 ```js
-fileinclude('@@')
+const fileinclude = require('gulp-file-include');
 ```
 
-* options - type: `object`
-  - prefix: `string`, default `@@`
-  - suffix: `string`, default `''`
-  - basepath: `string`, default `@file`, it could be `@root`, `@file`, `your-basepath`
-  - filters: `object`, filters of include content
-  - context: `object`, context of `if` statement
-  - indent: `boolean`, default `false`
+### fileinclude([prefix])
 
-* options.basepath - type: `string`, it could be
-  - `@root`, include file relative to the dir where `gulp` running in
-  - `@file`, include file relative to the dir where `file` in [example](example)
-  - `your-basepath` include file relative to the basepath you give
+#### prefix
 
-```js
-fileinclude({
-  prefix: '@@',
-  basepath: '@file'
-})
-```
+Type: `string`<br>
+Default: `'@@'`
 
-```js
-fileinclude({
-  prefix: '@@',
-  basepath: '/home/'
-})
-```
+### fileinclude([options])
 
-### example
+#### options
 
-* @@include options - type: `JSON`
+Type: `object`
+
+##### options.prefix
+
+Type: `string`<br>
+Default: `'@@'`
+
+##### options.suffix
+
+Type: `string`<br>
+Default: `''`
+
+##### options.basepath
+
+Type: `string`<br>
+Default: `'@file'`
+
+Possible values:
+  - `'@file'`:  include file relative to the dir in which `file` resides ([example](#include-options---type-json))
+  - `'@root'`: include file relative to the dir in which `gulp` is running
+  - `path/to/dir`: include file relative to the basepath you provide
+
+##### options.filters
+
+Type: `object`<br>
+Default: `false`
+
+Filters of include content.
+
+##### options.context
+
+Type: `object`
+Default: `{}`
+
+Context of `if` statement.
+
+##### options.indent
+
+Type: `boolean`
+Default: `false`
+
+## Examples
+
+### @@include options - type: `JSON`
 
 index.html
 ```html
@@ -85,8 +109,8 @@ var.html
 
 gulpfile.js
 ```js
-var fileinclude = require('gulp-file-include'),
-  gulp = require('gulp');
+const fileinclude = require('gulp-file-include');
+const gulp = require('gulp');
 
 gulp.task('fileinclude', function() {
   gulp.src(['index.html'])
@@ -98,7 +122,7 @@ gulp.task('fileinclude', function() {
 });
 ```
 
-and the result is:
+result:
 ```html
 <!DOCTYPE html>
 <html>
@@ -114,6 +138,7 @@ and the result is:
 
 ### filters
 
+index.html
 ```html
 <!DOCTYPE html>
 <html>
@@ -133,10 +158,11 @@ view
 ====
 ```
 
+gulpfile.js
 ```js
-var fileinclude = require('gulp-file-include'),
-  markdown = require('markdown'),
-  gulp = require('gulp');
+const fileinclude = require('gulp-file-include');
+const markdown = require('markdown');
+const gulp = require('gulp');
 
 gulp.task('fileinclude', function() {
   gulp.src(['index.html'])
@@ -151,14 +177,7 @@ gulp.task('fileinclude', function() {
 
 ### `if` statement
 
-```js
-fileinclude({
-  context: {
-    name: 'test'
-  }
-});
-```
-
+index.html
 ```
 @@include('some.html', { "nav": true })
 
@@ -167,16 +186,18 @@ fileinclude({
 }
 ```
 
-### `for` statement
-
+gulpfile.js
 ```js
 fileinclude({
   context: {
-    arr: ['test1', 'test2']
+    name: 'test'
   }
 });
 ```
 
+### `for` statement
+
+index.html
 ```html
 <ul>
 @@for (var i = 0; i < arr.length; i++) {
@@ -185,10 +206,18 @@ fileinclude({
 </ul>
 ```
 
+gulpfile.js
+```js
+fileinclude({
+  context: {
+    arr: ['test1', 'test2']
+  }
+});
+```
+
 ### `loop` statement
 
-* index.html
-
+index.html
 ```html
 <body>
   @@loop('loop-article.html', [
@@ -199,8 +228,7 @@ fileinclude({
 </body>
 ```
 
-* loop-article.html
-
+loop-article.html
 ```html
 <article>
   <h1>@@title</h1>
@@ -208,10 +236,9 @@ fileinclude({
 </article>
 ```
 
-### `loop` statement + data.json
+### `loop` statement + `data.json`
 
 data.json
-
 ```js
 [
   { "title": "My post title", "text": "<p>lorem ipsum...</p>" },
@@ -220,7 +247,7 @@ data.json
 ]
 ```
 
-* loop-article.html
+loop-article.html
 ```html
 <body>
   @@loop("loop-article.html", "data.json")
@@ -232,10 +259,7 @@ data.json
 The `webRoot` field of the context contains the relative path from the source document to
 the source root (unless the value is already set in the context options).
 
-### example
-
 support/contact/index.html
-
 ```html
 <!DOCTYPE html>
 <html>
@@ -250,8 +274,7 @@ support/contact/index.html
 </html>
 ```
 
-and the result is:
-
+result:
 ```html
 <!DOCTYPE html>
 <html>
