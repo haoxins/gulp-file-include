@@ -9,7 +9,7 @@
     "test-cov": "istanbul cover node_modules/.bin/_mocha -- -R dot -t 200 test/*.js",
     "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 200 test/*.js"
   },
-  "repository": "coderhaoxin/gulp-file-include",
+  "repository": "haoxins/gulp-file-include",
   "keywords": [
     "gulpplugin",
     "file",
