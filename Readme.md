@@ -294,8 +294,8 @@ MIT
 
 [npm-img]: https://img.shields.io/npm/v/gulp-file-include.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/gulp-file-include
-[travis-img]: https://img.shields.io/travis/coderhaoxin/gulp-file-include.svg?style=flat-square
-[travis-url]: https://travis-ci.org/coderhaoxin/gulp-file-include
+[travis-img]: https://img.shields.io/travis/haoxins/gulp-file-include.svg?style=flat-square
+[travis-url]: https://travis-ci.org/haoxins/gulp-file-include
 [coveralls-img]: https://img.shields.io/coveralls/coderhaoxin/gulp-file-include.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/coderhaoxin/gulp-file-include?branch=master
 [license-img]: http://img.shields.io/badge/license-MIT-green.svg?style=flat-square
