@@ -136,6 +136,78 @@ result:
 </html>
 ```
 
+### @@include_once options - type: `JSON`
+
+index.html
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+  @@include_once('./view.html')
+  @@include_once('./var.html', {
+    "name": "haoxin",
+    "age": 12345,
+    "socials": {
+      "fb": "facebook.com/include",
+      "tw": "twitter.com/include"
+    }
+  })
+  @@include_once('./var.html', {
+    "name": "haoxin",
+    "age": 12345,
+    "socials": {
+      "fb": "facebook.com/include",
+      "tw": "twitter.com/include"
+    }
+  })
+  </body>
+</html>
+```
+
+view.html
+```html
+<h1>view</h1>
+```
+
+var.html
+```html
+<label>@@name</label>
+<label>@@age</label>
+<strong>@@socials.fb</strong>
+<strong>@@socials.tw</strong>
+```
+
+gulpfile.js
+```js
+const fileinclude = require('gulp-file-include');
+const gulp = require('gulp');
+
+gulp.task('fileinclude', function() {
+  gulp.src(['index.html'])
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(gulp.dest('./'));
+});
+```
+
+result:
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+  <h1>view</h1>
+  <label>haoxin</label>
+<label>12345</label>
+<strong>facebook.com/include</strong>
+<strong>twitter.com/include</strong>
+
+  </body>
+</html>
+```
+
+
 ### filters
 
 index.html
