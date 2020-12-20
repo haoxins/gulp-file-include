@@ -1,7 +1,7 @@
 {
   "name": "gulp-file-include",
-  "version": "2.2.2",
-  "description": "a gulp plugin for file include",
+  "version": "2.3.0",
+  "description": "A gulp plugin for file include",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint lib test/*.js --fix",
