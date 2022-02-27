@@ -1,7 +1,5 @@
 language: node_js
 node_js:
-  - 12
-  - 14
-  - 15
+  - 16
 script: "npm run test-travis"
 after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
